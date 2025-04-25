@@ -12,8 +12,7 @@ func AuthRequired(userType string) mux.MiddlewareFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			store := cookies.NewCookieManager(r)
 			if store.Session.Values["user_type"] != "user" {
-				http.Error(w, "Unauthorized", http.StatusUnauthorized)
-				return
+				http.Redirect(w, r, "/register", http.StatusSeeOther)
 			}
 			next.ServeHTTP(w, r)
 		})

@@ -1,14 +1,24 @@
 package routes
 
 import (
+	"net/http"
 	"street-art/db"
+	"street-art/handlers/api"
+
+	auth "street-art/routes/middlewares"
 
 	"github.com/gorilla/mux"
-	auth "street-art/routes/middlewares"
 )
 
 func ApiRoutes(r *mux.Router, manager *db.Manager) {
-	api := r.PathPrefix("/api").Subrouter()
-	api.Use(auth.AuthRequired("user"))
+	apiRout := r.PathPrefix("/api").Subrouter()
+	apiRout.Use(auth.AuthRequired("user"))
 
+	apiRout.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		api.Login(manager, w, r)
+	}).Methods("GET")
+
+	apiRout.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+		api.Register(manager, w, r)
+	})
 }

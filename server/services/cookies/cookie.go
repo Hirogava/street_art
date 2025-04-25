@@ -21,7 +21,7 @@ func Init(key string) {
 }
 
 func NewCookieManager(r *http.Request) *Manager {
-	session, err := store.Get(r, "session-name")
+	session, err := store.Get(r, "street-store")
 	if err != nil {
 		log.Printf("Ошибка при получении сессии: %v", session)
 	}

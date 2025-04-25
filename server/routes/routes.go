@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 	"street-art/db"
-	"street-art/handlers"
+	"street-art/handlers/pages"
 	auth "street-art/routes/middlewares"
 
 	"github.com/gorilla/mux"

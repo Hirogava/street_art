@@ -16,17 +16,17 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 
 	apiRout.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		api.Login(manager, w, r)
-	}).Methods("GET")
+	}).Methods(http.MethodPost)
 
 	apiRout.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		api.Register(manager, w, r)
-	})
+	}).Methods(http.MethodPost)
 
 	apiRout.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		api.Logout(manager, w, r)
-	})
+	}).Methods(http.MethodPost)
 
 	apiRout.HandleFunc("/edit_profile", func(w http.ResponseWriter, r *http.Request) {
 		api.EditProfile(manager, w, r)
-	})
+	}).Methods(http.MethodPost)
 }

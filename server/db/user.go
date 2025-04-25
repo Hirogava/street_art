@@ -37,3 +37,14 @@ func (manager *Manager) Register(user *models.User, password string) error {
 
 	return nil
 }
+
+func (manager *Manager) UpdateUserInfo(user *models.User) error {
+	query := `UPDATE users SET name = $1, phone = $2, address = $3 WHERE id = $4;`
+
+	_, err := manager.Conn.Exec(query, user.Name, user.Phone, user.Address, user.Id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

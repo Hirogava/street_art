@@ -21,4 +21,12 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 	apiRout.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		api.Register(manager, w, r)
 	})
+
+	apiRout.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		api.Logout(manager, w, r)
+	})
+
+	apiRout.HandleFunc("/edit_profile", func(w http.ResponseWriter, r *http.Request) {
+		api.EditProfile(manager, w, r)
+	})
 }

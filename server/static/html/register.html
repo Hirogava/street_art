@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form id="registerForm">
+        <input type="text" name="name" placeholder="Имя" required><br>
+        <input type="email" name="email" placeholder="Почта" required><br>
+        <input type="password" name="password" placeholder="Пароль" required><br>
+        <input type="text" name="phone" placeholder="Телефон"><br>
+        <input type="text" name="address" placeholder="Адрес"><br>
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+
+    <div id="message" style="margin-top:10px;color: red;"></div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    document.getElementById('message').textContent = result.message || 'Ошибка регистрации';
+                }
+            } catch (err) {
+                document.getElementById('message').textContent = 'Ошибка при отправке формы';
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>

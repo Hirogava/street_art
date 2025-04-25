@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+</head>
+<body>
+    <form action="/api/login" method="post" id="form">
+        <input type="text" name="email" placeholder="Введите почту">
+        <input type="password" name="password" placeholder="Введите пароль">
+        <input type="submit" value="Войти" id="submit">
+    </form>
+    <script>
+        document.getElementById('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = '/profile';
+                } else {
+                    const result = await response.json();
+                    alert(result.message || 'Ошибка авторизации');
+                }
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Ошибка запроса к серверу');
+            }
+        });
+    </script>
+</body>
+</html>

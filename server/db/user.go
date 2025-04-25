@@ -10,7 +10,7 @@ func (manager *Manager) Login(email string, password string) (models.User, error
 	var user models.User
 	var hashedPassword string
 
-	query := `SELECT * FROM users WHERE email = $1;`
+	query := `SELECT id, name, email, password_hash, phone, address FROM users WHERE email = $1;`
 	err := manager.Conn.QueryRow(query, email).Scan(&user.Id, &user.Name, &user.Email, &hashedPassword, &user.Phone, &user.Address)
 	if err != nil {
 		return models.User{}, err

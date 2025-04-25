@@ -5,6 +5,17 @@ import (
 	"street-art/models"
 )
 
+func SaveUserRoleCookie(r *http.Request, w http.ResponseWriter, role string, store *Manager) error {
+	store.Session.Values["role"] = role
+
+	err := store.Session.Save(r, w)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func SaveUserCookie(r *http.Request, w http.ResponseWriter, user models.User) error {
 	store := NewCookieManager(r)
 
@@ -14,7 +25,7 @@ func SaveUserCookie(r *http.Request, w http.ResponseWriter, user models.User) er
 	store.Session.Values["phone"] = user.Phone
 	store.Session.Values["address"] = user.Address
 
-	return store.Session.Save(r, w)
+	return SaveUserRoleCookie(r, w, "user", store)
 }
 
 func GetUserCookie(r *http.Request, w http.ResponseWriter) models.User {
@@ -37,7 +48,10 @@ func EditUserCookie(r *http.Request, w http.ResponseWriter, user models.User) er
 	store.Session.Values["phone"] = user.Phone
 	store.Session.Values["address"] = user.Address
 
-	return store.Session.Save(r, w)
+	if err := store.Session.Save(r, w); err != nil {
+		return err
+	}
+	return nil
 }
 
 func RemoveUserCookie(r *http.Request, w http.ResponseWriter) error {

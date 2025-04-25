@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"street-art/db"
 	"street-art/models"
@@ -14,18 +15,19 @@ func Login(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 
 	user, err := manager.Login(email, password)
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Ошибка авторизации: " + err.Error())
+		http.Error(w, `{"message": "Ошибка авторизации"}`, http.StatusInternalServerError)
 		return
 	}
 
 	err = cookies.SaveUserCookie(r, w, user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Ошибка сохранения cookie" + err.Error())
+		http.Error(w, `{"message": "Ошибка сохранения cookie"}`, http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"message": "Успешная авторизация"})
 }
 
@@ -40,24 +42,26 @@ func Register(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 
 	err := manager.Register(&user, password)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Ошибка регистрации" + err.Error())
+		http.Error(w, `{"message": "Ошибка регистрации"}`, http.StatusInternalServerError)
 		return
 	}
 
 	err = cookies.SaveUserCookie(r, w, user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Ошибка сохранения cookie" + err.Error())
+		http.Error(w, `{"message": "Ошибка сохранения cookie"}`, http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"message": "Успешная регистрация"})
 }
 
 func Logout(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 	err := cookies.RemoveUserCookie(r, w)
 	if err != nil {
+		log.Println("Ошибка удаления cookie" + err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -74,17 +78,18 @@ func EditProfile(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 
 	err := manager.UpdateUserInfo(&user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Ошибка обновления данных пользователя" + err.Error())
+		http.Error(w, `{"message": "Ошибка обновления данных пользователя"}`, http.StatusInternalServerError)
 		return
 	}
 
 	err = cookies.EditUserCookie(r, w, user)
 	if err != nil {	
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Ошибка сохранения cookie" + err.Error())
+		http.Error(w, `{"message": "Ошибка сохранения cookie"}`, http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"message": "Успешное редактирование профиля"})
 }

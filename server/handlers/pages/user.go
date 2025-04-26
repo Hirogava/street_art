@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
+	"street-art/db"
 	"street-art/services/cookies"
 )
 
@@ -38,7 +40,20 @@ func OrderDetails(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-func Cart(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/html/index.html"))
-	tmpl.Execute(w, nil)
+func Cart(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	userId := cookies.GetUserIdCookie(r)
+
+	products, err := manager.GetAllCart(userId)
+	if err != nil {
+		if err.Error() == "empty" {
+			tmpl := template.Must(template.ParseFiles("static/html/cart.html"))
+			tmpl.Execute(w, nil)
+			return
+		}
+		log.Println("Ошибка получения корзины пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	tmpl := template.Must(template.ParseFiles("static/html/cart.html"))
+	tmpl.Execute(w, products)
 }

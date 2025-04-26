@@ -49,4 +49,11 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 		api.AddToCart(w, r, manager)
 	}).Methods(http.MethodPost)
 
+	apiProduct.HandleFunc("/cart/{id}/clear", func(w http.ResponseWriter, r *http.Request) {
+		api.ClearCart(w, r, manager)
+	}).Methods(http.MethodPost)
+
+	apiProduct.HandleFunc("/cart/{cart_id}/delete/{product_id}", func(w http.ResponseWriter, r *http.Request) {
+		api.DeleteProductFromCart(w, r, manager)
+	})
 }

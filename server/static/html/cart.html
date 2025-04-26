@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .product {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        .product img {
+            width: 120px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        .empty-cart {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .btn-delete {
+            background-color: red;
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background-color: #b90101;
+        }
+        .btn-clear {
+            background-color: orange;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 30px;
+            cursor: pointer;
+        }
+        .btn-clear:hover {
+            background-color: #ff8c00;
+        }
+        .product:hover {
+            background-color: #f2f2f2;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+        .summary h2 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    {{if .ProductsFromCart}}
+        <h1>Ваша корзина</h1>
+        {{range .ProductsFromCart}}
+        <div class="product" id="product-{{.CartId}}">
+            <a href="/product/{{.ProductId}}" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                <img src="{{.ImageUrl}}" alt="{{.Name}}">
+                <div class="product-details">
+                    <h2>{{.Name}}</h2>
+                    <p>{{.Description}}</p>
+                    <p>Цена за 1 шт: {{.Price}} ₽</p>
+                    <p>Количество: {{.Count}}</p>
+                    <p>Итого: {{.TotalPrice}} ₽</p>
+                </div>
+            </a>
+            <button class="btn-delete" onclick="deleteProduct({{.CartId}}, {{.ProductId}})">Удалить из корзины</button>
+        </div>
+        {{end}}
+
+        <a href="/products" class="btn">Вернуться к товарам</a>
+
+        <div class="summary">
+            <h2>Всего товаров: <span id="total-count">{{.Count}}</span></h2>
+            <h2>Общая стоимость: <span id="total-price">{{.TotalPrice}}</span> ₽</h2>
+        </div>
+
+        <button class="btn-clear" onclick="clearCart()">Очистить корзину</button>
+
+    {{else}}
+        <div class="empty-cart">
+            <h1>Ваша корзина пуста</h1>
+            <p>Вы ещё ничего не добавили. Посмотрите наши товары!</p>
+            <a href="/products" class="btn">Перейти к товарам</a>
+        </div>
+    {{end}}
+
+    <script>
+        async function deleteProduct(cartId, productId) {
+            if (!confirm('Удалить этот товар из корзины?')) return;
+
+            const response = await fetch(`/api/product/cart/${cartId}/delete/${productId}`, {
+                method: 'POST',
+            });
+
+            const result = await response.json();
+            if (result.status === "ok") {
+                const productElement = document.getElementById('product-' + cartId);
+                const price = parseFloat(productElement.querySelector('.product-details p:nth-child(5)').textContent.replace('Итого: ', '').replace(' ₽', ''));
+                const count = parseInt(productElement.querySelector('.product-details p:nth-child(4)').textContent.replace('Количество: ', ''));
+
+                productElement.style.opacity = 0;
+                setTimeout(() => {
+                    productElement.remove();
+                    updateSummary(-count, -price);
+                }, 300);
+
+            } else {
+                alert('Ошибка удаления товара из корзины');
+            }
+        }
+
+        async function clearCart() {
+            if (!confirm('Очистить всю корзину?')) return;
+            const userId = {{.UserId}};
+            const response = await fetch(`/api/product/cart/${userId}/clear`, {
+                method: 'POST',
+            });
+
+            const result = await response.json();
+            if (result.status === "ok") {
+                location.reload();
+            } else {
+                alert('Ошибка очистки корзины');
+            }
+        }
+
+        function updateSummary(countChange, priceChange) {
+            const countElement = document.getElementById('total-count');
+            const priceElement = document.getElementById('total-price');
+
+            let newCount = parseInt(countElement.textContent) + countChange;
+            let newPrice = parseFloat(priceElement.textContent) + priceChange;
+
+            if (newCount < 0) newCount = 0;
+            if (newPrice < 0) newPrice = 0;
+
+            countElement.textContent = newCount;
+            priceElement.textContent = newPrice.toFixed(2);
+
+            if (newCount === 0) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -16,3 +16,22 @@ type ProductToCart struct {
 	Count int 			`json:"count"`
 	UserId int 			`json:"user_id"`
 }
+
+type ProductFromCart struct {
+	CartId int 			`json:"cart_id"`
+	ProductId int 		`json:"product_id"`
+	Count int 			`json:"count"`
+	Name string 		`json:"name"`
+	Description string 	`json:"description"`
+	Price float64 		`json:"price"`
+	ImageUrl string 	`json:"image_url"`
+	Stock int 			`json:"stock"`
+	TotalPrice float64 	`json:"total_price"`
+}
+
+type AllProductsFromCart struct {
+	UserId int 			`json:"user_id"`
+	ProductsFromCart []ProductFromCart `json:"products_from_cart"`
+	TotalPrice float64 	`json:"total_price"`
+	Count int 			`json:"count"`
+}

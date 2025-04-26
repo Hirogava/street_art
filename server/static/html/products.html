@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>Продукты</title>
     <style>
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
         .product-card {
             border: 1px solid black;
             padding: 10px;
@@ -23,18 +29,20 @@
     </style>
 </head>
 <body>
-    {{range .}}
-    <a href="/product/{{.Id}}" class="product-card">
-        <div>
-            <img src="{{.ImageUrl}}" alt="{{.Name}}">
-            <h1>{{.Name}}</h1>
-            <p>{{.Description}}</p>
-            <h2>Цена: {{.Price}} ₽</h2>
-            <h3>Категория: {{.Category}}</h3>
-            <h3>Остаток: {{.Stock}}</h3>
-            <h3>Бренд: {{.Brand}}</h3>
-        </div>
-    </a>
-    {{end}}
+    <div class="products">
+        {{range .}}
+            <a href="/product/{{.Id}}" class="product-card">
+                <div>
+                    <img src="{{.ImageUrl}}" alt="{{.Name}}">
+                    <h1>{{.Name}}</h1>
+                    <p>{{.Description}}</p>
+                    <h2>Цена: {{.Price}} ₽</h2>
+                    <h3>Категория: {{.Category}}</h3>
+                    <h3>Остаток: {{.Stock}}</h3>
+                    <h3>Бренд: {{.Brand}}</h3>
+                </div>
+            </a>
+            {{end}}
+    </div>
 </body>
 </html>

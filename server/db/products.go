@@ -66,3 +66,13 @@ func (manager *Manager) GetAllProducts() ([]models.Product, error) {
 
 	return products, nil
 }
+
+func (manager *Manager) AddToCart(product *models.ProductToCart) error {
+	query := `INSERT INTO cart (user_id, product_id, count) VALUES ($1, $2, $3)`
+	_, err := manager.Conn.Exec(query, &product.UserId, &product.Id, &product.Count)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

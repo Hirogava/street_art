@@ -36,6 +36,14 @@ CREATE TABLE products (
     brand_id INT REFERENCES brands(id)
 );
 
+CREATE TABLE cart (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    product_id INT REFERENCES products(id),
+    count INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),

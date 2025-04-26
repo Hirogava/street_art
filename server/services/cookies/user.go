@@ -67,3 +67,8 @@ func RemoveUserCookie(r *http.Request, w http.ResponseWriter) error {
 	}
 	return nil
 }
+
+func GetUserIdCookie(r *http.Request) int {
+	store := NewCookieManager(r)
+	return store.Session.Values["id"].(int)
+}

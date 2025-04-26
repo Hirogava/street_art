@@ -1,17 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Name}}</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .kolvo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            left: 40%;
+        }
+
+        .but, .val{
+            margin: 10%;
+        }
+
+        #success-message {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <img src="{{.ImageUrl}}" alt="">
-    <h1>{{.Name}}</h1>
-    <p>{{.Description}}</p>
-    <h2>{{.Price}}</h2>
-    <h2>{{.Category}}</h2>
-    <h2>{{.Stock}}</h2>
-    <h2>{{.Brand}}</h2>
+    <div class="img">
+        <img src="{{.ImageUrl}}" alt="">
+    </div>
+    <div class="discr">
+        <h1>Наименование: {{.Name}}</h1>
+        <p>Описание: {{.Description}}</p>
+        <h2>Цена: {{.Price}}</h2>
+        <h2>Категория: {{.Category}}</h2>
+        <h2>Кол-во: {{.Stock}}</h2>
+        <h2>Бренд: {{.Brand}}</h2>
+
+        <button id="add_to_cart">Добавить в корзину</button>
+        <p id="success-message">Успешное добавление в корзину!</p>
+
+        <p>Выберите кол-во товаров</p>
+        <div class="kolvo">
+            <button id="minus" class="but">-</button>
+            <p id="value" class="val">1</p>
+            <button id="plus" class="but">+</button>            
+        </div>
+    </div>
+    
+    <script>
+        let button = document.getElementById('add_to_cart');
+        let count = 1;
+        let value = document.getElementById('value');
+        let plus = document.getElementById('plus');
+        let minus = document.getElementById('minus');
+        let successMessage = document.getElementById('success-message');
+
+        const productId = {{.Id}};
+
+        plus.onclick = () => {
+            count++;
+            value.innerHTML = count;
+        }
+
+        minus.onclick = () => {
+            if (count > 1) {
+                count--;
+                value.innerHTML = count;
+            }
+        }
+
+        button.onclick = async () => {
+            try {
+                const response = await fetch('/api/product/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: productId,
+                        count: count
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "ok") {
+                    successMessage.style.display = "block";
+                } else {
+                    alert('Ошибка добавления в корзину');
+                }
+            } catch (err) {
+                console.error('Ошибка:', err);
+                alert('Ошибка при отправке запроса');
+            }
+        }
+    </script>
 </body>
 </html>

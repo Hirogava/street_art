@@ -34,7 +34,19 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 	/*
 		Роуты для редактирования профиля
 	*/
-	apiRout.HandleFunc("/edit_profile", func(w http.ResponseWriter, r *http.Request) {
+	apiProfile := apiRout.PathPrefix("/profile").Subrouter()
+
+	apiProfile.HandleFunc("/edit_profile", func(w http.ResponseWriter, r *http.Request) {
 		api.EditProfile(manager, w, r)
 	}).Methods(http.MethodPost)
+
+	/*
+		Роуты для товаров
+	*/
+	apiProduct := apiRout.PathPrefix("/product").Subrouter()
+
+	apiProduct.HandleFunc("/cart", func(w http.ResponseWriter, r *http.Request) {
+		api.AddToCart(w, r, manager)
+	}).Methods(http.MethodPost)
+
 }

@@ -37,11 +37,11 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/product/{id}", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Product(w, r)
+		handlers.Product(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Products(w, r)
+		handlers.Products(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/products/{category_id}", func(w http.ResponseWriter, r *http.Request) {

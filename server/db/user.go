@@ -10,8 +10,8 @@ func (manager *Manager) Login(email string, password string) (models.User, error
 	var user models.User
 	var hashedPassword string
 
-	query := `SELECT id, name, email, password_hash, phone, address FROM users WHERE email = $1;`
-	err := manager.Conn.QueryRow(query, email).Scan(&user.Id, &user.Name, &user.Email, &hashedPassword, &user.Phone, &user.Address)
+	query := `SELECT id, name, email, password_hash, phone, address, balance FROM users WHERE email = $1;`
+	err := manager.Conn.QueryRow(query, email).Scan(&user.Id, &user.Name, &user.Email, &hashedPassword, &user.Phone, &user.Address, &user.Balance)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -29,8 +29,8 @@ func (manager *Manager) Register(user *models.User, password string) error {
 		return err
 	}
 
-	query := `INSERT INTO users (name, email, password_hash, phone, address) VALUES ($1, $2, $3, $4, $5) RETURNING id;`
-	err = manager.Conn.QueryRow(query, user.Name, user.Email, hashedPassword, user.Phone, user.Address).Scan(&user.Id)
+	query := `INSERT INTO users (name, email, password_hash, phone, address) VALUES ($1, $2, $3, $4, $5) RETURNING id, balance;`
+	err = manager.Conn.QueryRow(query, user.Name, user.Email, hashedPassword, user.Phone, user.Address).Scan(&user.Id, &user.Balance)
 	if err != nil {
 		return err
 	}

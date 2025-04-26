@@ -24,7 +24,11 @@ func SaveUserCookie(r *http.Request, w http.ResponseWriter, user models.User) er
 	store.Session.Values["email"] = user.Email
 	store.Session.Values["phone"] = user.Phone
 	store.Session.Values["address"] = user.Address
+	store.Session.Values["balance"] = user.Balance
 
+	if store.Session.Values["role"] != nil {
+		return nil
+	}
 	return SaveUserRoleCookie(r, w, "user", store)
 }
 
@@ -37,6 +41,7 @@ func GetUserCookie(r *http.Request, w http.ResponseWriter) models.User {
 	user.Email = store.Session.Values["email"].(string)
 	user.Phone = store.Session.Values["phone"].(string)
 	user.Address = store.Session.Values["address"].(string)
+	user.Balance = store.Session.Values["balance"].(float64)
 
 	return user
 }

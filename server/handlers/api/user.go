@@ -62,7 +62,7 @@ func Logout(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 	err := cookies.RemoveUserCookie(r, w)
 	if err != nil {
 		log.Println("Ошибка удаления cookie" + err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, `{"message": "Ошибка выхода"}`, http.StatusInternalServerError)
 		return
 	}
 	

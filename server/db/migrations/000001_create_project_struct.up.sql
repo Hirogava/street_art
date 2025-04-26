@@ -9,6 +9,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
+    balance DECIMAL(10, 2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -18,6 +19,12 @@ CREATE TABLE categories (
     description TEXT
 );
 
+CREATE TABLE brands (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT
+)
+
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -26,7 +33,7 @@ CREATE TABLE products (
     category_id INT REFERENCES categories(id),
     stock INT DEFAULT 0,
     image_url VARCHAR(255),
-    brand VARCHAR(100)
+    brand_id INT REFERENCES brands(id)
 );
 
 CREATE TABLE orders (
@@ -66,4 +73,13 @@ CREATE TABLE admin_panel (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE balance_transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    amount DECIMAL(10, 2) NOT NULL, 
+    transaction_type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    comment TEXT
 );

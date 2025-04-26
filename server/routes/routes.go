@@ -51,7 +51,7 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	/*
 		Роуты для страницы корзины
 	*/
-	r.HandleFunc("/cart", func(w http.ResponseWriter, r *http.Request) {
+	user.HandleFunc("/cart", func(w http.ResponseWriter, r *http.Request) {
 		handlers.Cart(w, r)
 	}).Methods(http.MethodGet)
 

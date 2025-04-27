@@ -1,6 +1,7 @@
 CREATE TYPE order_status AS ENUM ('в обработке', 'отправлен', 'доставлен');
 CREATE TYPE payment_method AS ENUM ('карта', 'сбп');
 CREATE TYPE payment_status AS ENUM ('оплачен', 'ожидает');
+CREATE TYPE transaction_type AS ENUM ('пополнение', 'списание');
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -87,7 +88,7 @@ CREATE TABLE balance_transactions (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     amount DECIMAL(10, 2) NOT NULL, 
-    transaction_type VARCHAR(50) NOT NULL,
+    transaction_type transaction_type NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comment TEXT
 );

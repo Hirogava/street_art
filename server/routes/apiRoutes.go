@@ -55,5 +55,14 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 
 	apiProduct.HandleFunc("/cart/{cart_id}/delete/{product_id}", func(w http.ResponseWriter, r *http.Request) {
 		api.DeleteProductFromCart(w, r, manager)
+	}).Methods(http.MethodPost)
+
+	/*
+		Роуты для денежных операций
+	*/
+	apiBalance := apiRout.PathPrefix("/balance").Subrouter()
+	
+	apiBalance.HandleFunc("/deposit", func(w http.ResponseWriter, r *http.Request) {
+		api.Deposit(w, r, manager)
 	})
 }

@@ -10,4 +10,7 @@ const (
 
 	PaymentStatusWait = "ожидает"
 	PaymentStatusPayed = "оплачен"
+
+	TransactionTypeDeposit = "пополнение"
+	TransactionTypeWithdrawal = "списание"
 )

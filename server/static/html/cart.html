@@ -82,6 +82,42 @@
         .summary h2 {
             margin: 10px 0;
         }
+        .btn-order {
+            background-color: #2196F3;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 30px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+        .btn-order:hover {
+            background-color: #0b7dda;
+        }
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.5s, fadeOut 0.5s 1.5s;
+        }
+        @keyframes slideIn {
+            from {right: -300px; opacity: 0;}
+            to {right: 20px; opacity: 1;}
+        }
+        @keyframes fadeOut {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
     </style>
 </head>
 <body>
@@ -111,6 +147,7 @@
             <h2>Общая стоимость: <span id="total-price">{{.TotalPrice}}</span> ₽</h2>
         </div>
 
+        <button class="btn-order" onclick="makeOrder()">Сделать заказ</button>
         <button class="btn-clear" onclick="clearCart()">Очистить корзину</button>
 
     {{else}}
@@ -120,6 +157,8 @@
             <a href="/products" class="btn">Перейти к товарам</a>
         </div>
     {{end}}
+
+    <div class="popup" id="successPopup">Заказ успешно оформлен!</div>
 
     <script>
         async function deleteProduct(cartId, productId) {
@@ -158,6 +197,59 @@
                 location.reload();
             } else {
                 alert('Ошибка очистки корзины');
+            }
+        }
+
+        async function makeOrder() {
+            if (!confirm('Оформить заказ?')) return;
+            
+            const userId = {{.UserId}};
+            const totalPrice = parseFloat(document.getElementById('total-price').textContent);
+            
+            const products = [];
+            document.querySelectorAll('.product').forEach(productElement => {
+                const productId = parseInt(productElement.querySelector('a').href.split('/').pop());
+                const count = parseInt(productElement.querySelector('.product-details p:nth-child(4)').textContent.replace('Количество: ', ''));
+                
+                products.push({
+                    product_id: productId,
+                    count: count
+                });
+            });
+            
+            const orderData = {
+                user_id: userId,
+                products: products,
+                total_price: totalPrice
+            };
+            
+            try {
+                const response = await fetch('/api/balance/purchase', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === "ok") {
+                    const popup = document.getElementById('successPopup');
+                    popup.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                        location.reload();
+                    }, 2000);
+                } else if (result.message === "Недостаточно средств") {
+                    alert('Недостаточно средств на балансе');
+                } else {
+                    alert('Ошибка при оформлении заказа');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке запроса');
             }
         }
 

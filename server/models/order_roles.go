@@ -12,5 +12,5 @@ const (
 	PaymentStatusPayed = "оплачен"
 
 	TransactionTypeDeposit = "пополнение"
-	TransactionTypeWithdrawal = "списание"
+	TransactionTypeWithdraw = "списание"
 )

@@ -64,5 +64,9 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 	
 	apiBalance.HandleFunc("/deposit", func(w http.ResponseWriter, r *http.Request) {
 		api.Deposit(w, r, manager)
-	})
+	}).Methods(http.MethodPost)
+
+	apiBalance.HandleFunc("/purchase", func(w http.ResponseWriter, r *http.Request) {
+		api.Purchase(w, r, manager)
+	}).Methods(http.MethodPost)
 }

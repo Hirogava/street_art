@@ -30,9 +30,23 @@ func EditProfile(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-func Orders(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/html/index.html"))
-	tmpl.Execute(w, nil)
+func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	userId := cookies.GetUserIdCookie(r)
+	
+	orders, err := manager.GetAllOrders(userId)
+	if err != nil {
+		if err.Error() == "no orders" {
+			tmpl := template.Must(template.ParseFiles("static/html/orders.html"))
+			tmpl.Execute(w, nil)
+			return
+		}
+		log.Println("Ошибка получения заказов пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles("static/html/orders.html"))
+	tmpl.Execute(w, orders)
 }
 
 func OrderDetails(w http.ResponseWriter, r *http.Request) {

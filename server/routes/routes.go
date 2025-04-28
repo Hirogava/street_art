@@ -67,7 +67,7 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	}).Methods(http.MethodGet)
 
 	user.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Orders(w, r)
+		handlers.Orders(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	user.HandleFunc("/order/{id}", func(w http.ResponseWriter, r *http.Request) {

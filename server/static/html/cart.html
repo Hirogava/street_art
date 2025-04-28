@@ -240,7 +240,7 @@
                     
                     setTimeout(() => {
                         popup.style.display = 'none';
-                        location.reload();
+                        window.location.href = '/profile/orders';
                     }, 2000);
                 } else if (result.message === "Недостаточно средств") {
                     alert('Недостаточно средств на балансе');

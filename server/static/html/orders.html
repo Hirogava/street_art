@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заказы</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+        .order-card {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .order-card:hover {
+            background-color: #f0f0f0;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-details {
+            margin-top: 15px;
+        }
+        .order-details p, .order-details li {
+            margin: 5px 0;
+            color: #555;
+        }
+        .order-details ul {
+            padding-left: 20px;
+        }
+        .status {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .empty-orders {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 22px;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {{if .Orders}}
+        <h1>Мои заказы</h1>
+
+        {{range .Orders}}
+            <a href="/profile/order/{{.OrderDate}}" class="order-card">
+                <div class="order-header">
+                    <h2>Заказ от {{.OrderDate}}</h2>
+                    <div class="status">Статус: {{.Status}}</div>
+                </div>
+                <div class="order-details">
+                    <p><strong>Общая стоимость:</strong> {{.TotalPrice}} ₽</p>
+                    <p><strong>Товары:</strong></p>
+                    <ul>
+                        {{range .Products}}
+                            <li>{{.ProductName}} — {{.Count}} шт. ({{.Price}} ₽)</li>
+                        {{end}}
+                    </ul>
+                </div>
+            </a>
+        {{end}}
+
+        <a href="/profile" class="btn">Назад в профиль</a>
+
+    {{else}}
+        <div class="empty-orders">
+            <h2>У вас пока нет заказов.</h2>
+            <p><a href="/products" class="btn">Посмотреть товары</a></p>
+        </div>
+    {{end}}
+</div>
+
+</body>
+</html>

@@ -55,7 +55,7 @@ func EditProfile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 
 func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	userId := cookies.GetUserIdCookie(r)
-	
+
 	orders, err := manager.GetAllOrders(userId)
 	if err != nil {
 		if err.Error() == "no orders" {

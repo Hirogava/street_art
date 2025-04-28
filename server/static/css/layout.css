@@ -17,7 +17,7 @@
 }
 
 .logo {
-    height: 50px;
+    height: 250px;
 }
 
 .logo img {
@@ -26,6 +26,7 @@
 }
 
 .nav {
+    margin-right: 10%;
     display: flex;
     align-items: center;
     gap: 30px;

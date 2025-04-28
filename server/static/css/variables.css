@@ -17,10 +17,6 @@
     --container-width: 1200px;
     --border-radius: 8px;
     --transition-speed: 0.3s;
-
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 * {

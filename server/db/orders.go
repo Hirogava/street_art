@@ -8,25 +8,25 @@ import (
 )
 
 func (manager *Manager) GetAllOrders(userId int) (models.UserOrders, error) {
-    var userOrders models.UserOrders
+	var userOrders models.UserOrders
 
-    rows, err := manager.Conn.Query("SELECT id, order_date, status, total_price FROM orders WHERE user_id = $1", userId)
-    if err != nil {
-        if err == sql.ErrNoRows {
-            return models.UserOrders{}, fmt.Errorf("no orders")
-        }
-        return models.UserOrders{}, err
-    }
-    defer rows.Close()
+	rows, err := manager.Conn.Query("SELECT id, order_date, status, total_price FROM orders WHERE user_id = $1", userId)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.UserOrders{}, fmt.Errorf("no orders")
+		}
+		return models.UserOrders{}, err
+	}
+	defer rows.Close()
 
-    for rows.Next() {
-        var order models.Orders
+	for rows.Next() {
+		var order models.Orders
 
-        order.UserId = userId
-        err := rows.Scan(&order.OrderId, &order.OrderDate, &order.Status, &order.TotalPrice)
-        if err != nil {
-            return models.UserOrders{}, err
-        }
+		order.UserId = userId
+		err := rows.Scan(&order.OrderId, &order.OrderDate, &order.Status, &order.TotalPrice)
+		if err != nil {
+			return models.UserOrders{}, err
+		}
 
 		parsedTime, err := time.Parse(time.RFC3339Nano, order.OrderDate)
 		if err != nil {
@@ -34,18 +34,16 @@ func (manager *Manager) GetAllOrders(userId int) (models.UserOrders, error) {
 		}
 		order.OrderDate = parsedTime.Format("02.01.2006 15:04")
 
+		err = manager.GetProductsForOrders(&order.Products, order.OrderId)
+		if err != nil {
+			return models.UserOrders{}, err
+		}
 
-        err = manager.GetProductsForOrders(&order.Products, order.OrderId)
-        if err != nil {
-            return models.UserOrders{}, err
-        }
+		userOrders.Orders = append(userOrders.Orders, order)
+	}
 
-        userOrders.Orders = append(userOrders.Orders, order)
-    }
-
-    return userOrders, nil
+	return userOrders, nil
 }
-
 
 func (manager *Manager) GetProductsForOrders(productOrders *[]models.ProductOrder, orderId int) error {
 	rows, err := manager.Conn.Query(`SELECT
@@ -75,6 +73,17 @@ func (manager *Manager) GetProductsForOrders(productOrders *[]models.ProductOrde
 
 func (manager *Manager) GetOrderDetails(orderId int) (models.ProductsToOrder, error) {
 	var products models.ProductsToOrder
+
+	var status string
+	err := manager.Conn.QueryRow("SELECT status FROM orders WHERE id = $1", orderId).Scan(&status)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.ProductsToOrder{}, fmt.Errorf("заказ не найден")
+		}
+		return models.ProductsToOrder{}, err
+	}
+	products.Status = status
+
 	rows, err := manager.Conn.Query(`SELECT
 										o.product_id,
 										p.name,
@@ -94,7 +103,7 @@ func (manager *Manager) GetOrderDetails(orderId int) (models.ProductsToOrder, er
 		var product models.ProductToOrder
 		err := rows.Scan(&product.ProductId, &product.Name, &product.Description, &product.TotalPrice, &product.Count, &product.ImageUrl)
 		if err != nil {
-				return models.ProductsToOrder{}, err
+			return models.ProductsToOrder{}, err
 		}
 		products.ProductsToOrder = append(products.ProductsToOrder, product)
 	}

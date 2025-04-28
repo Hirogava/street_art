@@ -17,7 +17,8 @@ CREATE TABLE users (
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description TEXT
+    description TEXT,
+    image_url VARCHAR(255)
 );
 
 CREATE TABLE brands (
@@ -82,6 +83,11 @@ CREATE TABLE admin_panel (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE top_products (
+    id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES products(id)
 );
 
 CREATE TABLE balance_transactions (

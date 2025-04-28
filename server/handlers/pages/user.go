@@ -77,7 +77,7 @@ func OrderDetails(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	orderId, err := strconv.Atoi(vars["id"])
 	if err != nil {
 		log.Println("Ошибка при получении id заказа:", err)
-		http.Error(w, "Ошибка получения id заказа: " + err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Ошибка получения id заказа: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 

@@ -72,3 +72,8 @@ func GetUserIdCookie(r *http.Request) int {
 	store := NewCookieManager(r)
 	return store.Session.Values["id"].(int)
 }
+
+func IsAuthenticated(r *http.Request) bool {
+	store := NewCookieManager(r)
+	return store.Session.Values["id"] != nil
+}

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/static/css/variables.css">
     <link rel="stylesheet" href="/static/css/layout.css">
     <link rel="stylesheet" href="/static/css/common.css">
-    <link rel="stylesheet" href="/static/css/auth.css">
     <link rel="stylesheet" href="/static/css/notifications.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -34,6 +33,17 @@
                 <a href="#" class="nav-link">О нас</a>
                 <a href="#" class="nav-link">Контакты</a>
             </nav>
+            <div class="user-menu">
+                <a href="/profile/cart" class="nav-link">Корзина</a>
+                <div class="dropdown">
+                    <div class="user-avatar">П</div>
+                    <div class="dropdown-content">
+                        <a href="/profile" class="dropdown-item">Профиль</a>
+                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
+                        <a href="/api/logout" class="dropdown-item">Выйти</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 

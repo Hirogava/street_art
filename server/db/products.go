@@ -58,7 +58,7 @@ func (manager *Manager) GetAllProducts() ([]models.Product, error) {
 	for rows.Next() {
 		var product models.Product
 		err := rows.Scan(&product.Id, &product.Name, &product.Description, &product.Price, &product.Stock, &product.ImageUrl, &product.Brand, &product.Category)
-  		if err != nil {
+		if err != nil {
 			return nil, err
 		}
 		products = append(products, product)
@@ -75,4 +75,42 @@ func (manager *Manager) AddToCart(product *models.ProductToCart) error {
 	}
 
 	return nil
+}
+
+func (Manager *Manager) GetTopProducts() ([]models.Product, error) {
+	var products []models.Product
+
+	query := `SELECT 
+				p.id,
+				p.name,
+				p.description,
+				p.price,
+				p.stock,
+				p.image_url,
+				b.name AS brand,
+				c.name AS category
+			FROM 
+				products p
+			INNER JOIN 
+				top_products tp ON p.id = tp.product_id
+			LEFT JOIN 
+				brands b ON p.brand_id = b.id
+			JOIN 
+				categories c ON p.category_id = c.id;`
+	rows, err := Manager.Conn.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var product models.Product
+		err := rows.Scan(&product.Id, &product.Name, &product.Description, &product.Price, &product.Stock, &product.ImageUrl, &product.Brand, &product.Category)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, product)
+	}
+
+	return products, nil
 }

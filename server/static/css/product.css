@@ -43,7 +43,7 @@
 }
 
 .product-description {
-    color: var(--color-gray);
+    color: var(--color-jet-black);
     line-height: 1.6;
     margin-bottom: 30px;
 }
@@ -62,7 +62,7 @@
 }
 
 .info-label {
-    color: var(--color-gray);
+    color: var(--color-jet-black);
     font-size: 0.9rem;
 }
 

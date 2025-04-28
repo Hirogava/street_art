@@ -33,7 +33,7 @@ func Routes(r *mux.Router, manager *db.Manager) {
 		Роуты для страниц продуктов
 	*/
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Landing(w, r)
+		handlers.Landing(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/product/{id}", func(w http.ResponseWriter, r *http.Request) {

@@ -3,137 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{.Name}}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            padding: 40px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 800px;
-            width: 100%;
-        }
-
-        .img {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .img img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .discr h1, .discr h2, .discr p {
-            margin: 10px 0;
-        }
-
-        .buttons {
-            margin-top: 20px;
-        }
-
-        #add_to_cart {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #add_to_cart:hover {
-            background-color: #45a049;
-        }
-
-        #success-message, #success-link {
-            color: green;
-            margin-top: 10px;
-            font-weight: bold;
-            display: none;
-            text-align: center;
-        }
-
-        #success-link {
-            text-decoration: none;
-            display: none;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        #success-link:hover {
-            color: #006b00;
-        }
-
-        .kolvo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .but, .val {
-            margin: 10px;
-            font-size: 20px;
-        }
-
-        .but {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background-color: #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .but:hover {
-            background-color: #ccc;
-        }
-
-        .val {
-            width: 40px;
-            text-align: center;
-        }
-    </style>
+    <title>{{.Name}} - Street Art Supplies</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/product.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="img">
-            <img src="{{.ImageUrl}}" alt="{{.Name}}">
-        </div>
-        <div class="discr">
-            <h1>{{.Name}}</h1>
-            <p>Описание: {{.Description}}</p>
-            <h2>Цена: {{.Price}} ₽</h2>
-            <h2>Категория: {{.Category}}</h2>
-            <h2>В наличии: {{.Stock}} шт.</h2>
-            <h2>Бренд: {{.Brand}}</h2>
-
-            <div class="buttons">
-                <button id="add_to_cart">Добавить в корзину</button>
-                <p id="success-message">Успешное добавление в корзину!</p>
-                <a href="/profile/cart" id="success-link">Перейти в корзину</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
             </div>
-
-            <p style="margin-top: 30px;">Выберите количество товаров:</p>
-            <div class="kolvo">
-                <button id="minus" class="but">-</button>
-                <p id="value" class="val">1</p>
-                <button id="plus" class="but">+</button>            
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+            <div class="user-menu">
+                <a href="/profile/cart" class="nav-link">Корзина</a>
+                <div class="dropdown">
+                    <div class="user-avatar">В</div>
+                    <div class="dropdown-content">
+                        <a href="/profile" class="dropdown-item">Профиль</a>
+                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
+                        <a href="/api/logout" class="dropdown-item">Выйти</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="product-container">
+            <div class="product-image">
+                <img src="{{.ImageUrl}}" alt="{{.Name}}">
+            </div>
+            <div class="product-details">
+                <h1 class="product-title">{{.Name}}</h1>
+                <p class="product-description">{{.Description}}</p>
+                <div class="product-info">
+                    <div class="info-item">
+                        <span class="info-label">Цена:</span>
+                        <span class="info-value">{{.Price}} ₽</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Категория:</span>
+                        <span class="info-value">{{.Category}}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">В наличии:</span>
+                        <span class="info-value">{{.Stock}} шт.</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Бренд:</span>
+                        <span class="info-value">{{.Brand}}</span>
+                    </div>
+                </div>
+
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <button id="minus" class="quantity-btn">-</button>
+                        <span id="value" class="quantity-value">1</span>
+                        <button id="plus" class="quantity-btn">+</button>
+                    </div>
+                    <button id="add_to_cart" class="btn btn-primary">Добавить в корзину</button>
+                    <a href="/profile/cart" id="success-link" class="btn btn-secondary" style="display: none;">Перейти в корзину</a>
+                </div>
+
+                <div class="success-message" id="success-message">
+                    <p>Товар успешно добавлен в корзину!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
 
     <script>
         let button = document.getElementById('add_to_cart');
@@ -176,6 +177,14 @@
                 if (result.status === "ok") {
                     successMessage.style.display = "block";
                     successLink.style.display = "inline-block";
+                    
+                    setTimeout(() => {
+                        successMessage.style.animation = "fadeOut 0.3s ease-out";
+                        setTimeout(() => {
+                            successMessage.style.display = "none";
+                            successMessage.style.animation = "slideInRight 0.3s ease-out";
+                        }, 300);
+                    }, 3000);
                 } else {
                     alert('Ошибка добавления в корзину');
                 }
@@ -183,6 +192,10 @@
                 console.error('Ошибка:', err);
                 alert('Ошибка при отправке запроса');
             }
+        }
+
+        successLink.onclick = () => {
+            successMessage.style.display = "none";
         }
     </script>
 </body>

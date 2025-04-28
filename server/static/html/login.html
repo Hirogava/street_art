@@ -1,41 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
+    <title>Вход - Street Art Supplies</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="/api/login" method="post" id="form">
-        <input type="text" name="email" placeholder="Введите почту">
-        <input type="password" name="password" placeholder="Введите пароль">
-        <input type="submit" value="Войти" id="submit">
-    </form>
-    <script>
-        document.getElementById('form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+        </div>
+    </header>
 
-            const form = event.target;
-            const formData = new FormData(form);
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h1 class="auth-title">Вход в аккаунт</h1>
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" id="password" name="password" class="form-input" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                    </form>
+                    <div class="auth-links">
+                        <p>Нет аккаунта? <a href="/register" class="auth-link">Зарегистрироваться</a></p>
+                        <a href="#" class="auth-link">Забыли пароль?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    body: formData,
-                });
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
 
-                if (response.ok) {
-                    window.location.href = '/profile';
-                } else {
-                    const result = await response.json();
-                    alert(result.message || 'Ошибка авторизации');
-                }
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
 
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Ошибка запроса к серверу');
-            }
-        });
-    </script>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>

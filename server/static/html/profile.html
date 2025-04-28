@@ -2,298 +2,138 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Профиль</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px;
-            min-height: 100vh;
-        }
-        .profile-container {
-            background-color: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        .profile-container h1 {
-            margin-bottom: 20px;
-            font-size: 28px;
-            color: #333;
-        }
-        .profile-container p, .profile-container h2 {
-            margin: 10px 0;
-            color: #555;
-        }
-        .profile-container h2 {
-            font-weight: normal;
-        }
-        .balance {
-            margin-top: 20px;
-            font-size: 22px;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-        .btn {
-            margin-top: 20px;
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-        .btn-secondary {
-            margin-top: 10px;
-            display: inline-block;
-            background-color: #2196F3;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .btn-secondary:hover {
-            background-color: #0b7dda;
-        }
-        .btn-edit {
-            margin-top: 10px;
-            display: inline-block;
-            background-color: #FFC107;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        .btn-edit:hover {
-            background-color: #e0a800;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s ease;
-            z-index: 1001;
-        }
-        .popup.active {
-            opacity: 1;
-            pointer-events: all;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .popup input {
-            padding: 8px;
-            margin-top: 10px;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        .popup-buttons {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .popup-buttons button {
-            flex: 1;
-            margin: 5px;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-confirm {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-cancel {
-            background-color: #ccc;
-            color: black;
-        }
-        .btn-confirm:hover {
-            background-color: #45a049;
-        }
-        .btn-cancel:hover {
-            background-color: #bbb;
-        }
-        .products-link {
-            margin-top: 30px;
-            display: inline-block;
-            font-size: 18px;
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        .products-link:hover {
-            text-decoration: underline;
-        }
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-            z-index: 1000;
-        }
-        #overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        #success-toast {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%); 
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            font-size: 18px;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        #success-toast.show {
-            display: block;
-            opacity: 1;
-        }
-        #success-toast.hide {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-    </style>
+    <title>Профиль - Street Art Supplies</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="/static/css/notifications.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="profile-container">
-    <h1>{{.Name}}</h1>
-    <p>Email: {{.Email}}</p>
-    <p>Телефон: {{.Phone}}</p>
-    <h2>Адрес: {{.Address}}</h2>
-    <div class="balance" id="balance">Баланс: {{.Balance}} ₽</div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-card">
+                    <h1 class="profile-title">{{.Name}}</h1>
+                    <div class="profile-info">
+                        <p><strong>Email:</strong> {{.Email}}</p>
+                        <p><strong>Телефон:</strong> {{.Phone}}</p>
+                        <p><strong>Адрес:</strong> {{.Address}}</p>
+                        <div class="balance">
+                            <span>Баланс:</span>
+                            <span class="balance-amount">{{.Balance}} ₽</span>
+                        </div>
+                    </div>
 
-    <a href="/profile/cart" class="btn">Перейти в корзину</a><br>
-    <a href="/profile/orders" class="btn-secondary">Мои заказы</a><br>
-    <a href="/profile/edit" class="btn-edit">Редактировать профиль</a><br>
-    <button class="btn" onclick="openPopup()">Пополнить баланс</button>
+                    <div class="profile-actions">
+                        <a href="/profile/cart" class="btn btn-primary">Перейти в корзину</a>
+                        <a href="/profile/orders" class="btn btn-secondary">Мои заказы</a>
+                        <a href="/profile/edit" class="btn btn-edit">Редактировать профиль</a>
+                        <button class="btn btn-primary" onclick="openModal()">Пополнить баланс</button>
+                    </div>
 
-    {{if gt .Balance 0.0}}
-    <a href="/products" class="products-link" id="products-link">У вас есть средства! Посмотреть товары →</a>
-    {{end}}
-</div>
+                    {{if gt .Balance 0.0}}
+                    <div class="products-promo">
+                        <a href="/products" class="products-link">
+                            У вас есть средства! Посмотреть товары →
+                        </a>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </main>
 
-<div id="popup" class="popup">
-    <h2>Введите сумму пополнения</h2>
-    <input type="number" id="money" placeholder="Например, 500">
-    <div class="popup-buttons">
-        <button class="btn-confirm" onclick="deposit()">Пополнить</button>
-        <button class="btn-cancel" onclick="closePopup()">Отмена</button>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Пополнение баланса</h2>
+            <div class="form-group">
+                <label for="amount" class="form-label">Сумма пополнения</label>
+                <input type="number" id="amount" class="form-input" placeholder="Например, 500">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="deposit()">Пополнить</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+            </div>
+        </div>
     </div>
-</div>
 
-<div id="overlay"></div>
-<div id="success-toast">Баланс успешно пополнен ✅</div>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
 
-<script>
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    const balanceElement = document.getElementById('balance');
-    const successToast = document.getElementById('success-toast');
-    const productsLink = document.getElementById('products-link');
-
-    function openPopup() {
-        popup.classList.add('active');
-        overlay.classList.add('active');
-    }
-
-    function closePopup() {
-        popup.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-
-    async function deposit() {
-        const money = document.getElementById('money').value;
-        if (!money || money <= 0) {
-            alert('Введите корректную сумму');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('money', money);
-
-        try {
-            const response = await fetch('/api/balance/deposit', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (result.status === 'ok') {
-                balanceElement.textContent = `Баланс: ${parseFloat(result.new_balance).toFixed(2)} ₽`;
-
-                closePopup();
-                document.getElementById('money').value = '';
-
-                if (parseFloat(result.new_balance) > 0 && !productsLink) {
-                    const link = document.createElement('a');
-                    link.href = "/products";
-                    link.className = "products-link";
-                    link.textContent = "У вас есть средства! Посмотреть товары →";
-                    document.querySelector('.profile-container').appendChild(link);
-                }
-
-                showSuccessToast();
-            } else {
-                alert('Ошибка пополнения');
-            }
-        } catch (err) {
-            console.error('Ошибка:', err);
-            alert('Ошибка при отправке запроса');
-        }
-    }
-
-    function showSuccessToast() {
-        successToast.classList.add('show');
-        successToast.classList.remove('hide');
-
-        setTimeout(() => {
-            successToast.classList.add('hide');
-            successToast.classList.remove('show');
-
-            setTimeout(() => {
-                successToast.style.display = 'none';
-            }, 500);
-        }, 2000);
-    }
-</script>
-
+    <script src="/static/js/profile.js"></script>
 </body>
 </html>

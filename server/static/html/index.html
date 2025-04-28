@@ -1,11 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Street Art Supplies - Магазин товаров для стрит-арта</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    Hello World!
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+            <div class="user-menu">
+                <a href="/profile/cart" class="nav-link">Корзина</a>
+                <div class="dropdown">
+                    <div class="user-avatar">В</div>
+                    <div class="dropdown-content">
+                        <a href="/profile" class="dropdown-item">Профиль</a>
+                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
+                        <a href="/api/logout" class="dropdown-item">Выйти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Профессиональные материалы для стрит-арта</h1>
+                <p>Широкий ассортимент красок, маркеров и аксессуаров для создания уличного искусства</p>
+                <a href="/products" class="btn btn-primary">В каталог</a>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="featured container">
+            <div class="section-title">
+                <h2>Популярные товары</h2>
+                <p>Самые востребованные материалы для стрит-арта</p>
+            </div>
+            <div class="products-grid">
+                <!-- Product cards will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="categories container">
+            <div class="section-title">
+                <h2>Категории</h2>
+                <p>Выберите нужную категорию товаров</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="/static/img/category-paints.jpg" alt="Краски">
+                    <div class="category-overlay">Краски</div>
+                </div>
+                <div class="category-card">
+                    <img src="/static/img/category-markers.jpg" alt="Маркеры">
+                    <div class="category-overlay">Маркеры</div>
+                </div>
+                <div class="category-card">
+                    <img src="/static/img/category-stencils.jpg" alt="Трафареты">
+                    <div class="category-overlay">Трафареты</div>
+                </div>
+                <div class="category-card">
+                    <img src="/static/img/category-accessories.jpg" alt="Аксессуары">
+                    <div class="category-overlay">Аксессуары</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <div class="container">
+                <h2>Подпишитесь на рассылку</h2>
+                <p>Получайте информацию о новых поступлениях и специальных предложениях</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Ваш email" required>
+                    <button type="submit" class="btn">Подписаться</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/index.js"></script>
 </body>
 </html>

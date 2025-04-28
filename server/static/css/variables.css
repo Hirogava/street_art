@@ -1,0 +1,102 @@
+:root {
+    --color-jet-black: #1A1A1A;
+    --color-neon-red: #FF3B3F;
+    --color-electric-blue: #00AEEF;
+    --color-concrete-grey: #CCCCCC;
+    --color-spray-white: #F9F9F9;
+
+    --color-neon-red-hover: #ff1a1f;
+    --color-electric-blue-hover: #0099cc;
+    --color-concrete-grey-hover: #b3b3b3;
+
+    --font-primary: 'Roboto', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+
+    --header-height: 80px;
+    --footer-height: 200px;
+    --container-width: 1200px;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-jet-black);
+    color: var(--color-spray-white);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    color: var(--color-electric-blue);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--color-electric-blue-hover);
+}
+
+button {
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background-color: var(--color-neon-red);
+    color: var(--color-spray-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-neon-red-hover);
+}
+
+.btn-secondary {
+    background-color: var(--color-electric-blue);
+    color: var(--color-spray-white);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-electric-blue-hover);
+}
+
+.card {
+    background-color: var(--color-spray-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 20px;
+    color: var(--color-jet-black);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-speed) ease-in;
+} 

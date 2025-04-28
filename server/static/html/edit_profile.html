@@ -2,133 +2,117 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование профиля</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .edit-container {
-            background-color: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        .edit-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .edit-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-        .edit-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        .btn-submit {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn-submit:hover {
-            background-color: #45a049;
-        }
-        .back-link {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-            color: #4CAF50;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        #success-message {
-            margin-top: 15px;
-            text-align: center;
-            color: green;
-            font-weight: bold;
-            display: none;
-        }
-    </style>
+    <title>Редактирование профиля - Street Art Supplies</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="stylesheet" href="/static/css/notifications.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="edit-container">
-    <h1>Редактировать профиль</h1>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-card">
+                    <h1 class="profile-title">Редактирование профиля</h1>
+                    <form id="editProfileForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Имя</label>
+                            <input type="text" id="name" name="name" class="form-input" value="{{.Name}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Телефон</label>
+                            <input type="text" id="phone" name="phone" class="form-input" value="{{.Phone}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="form-label">Адрес</label>
+                            <input type="text" id="address" name="address" class="form-input" value="{{.Address}}">
+                        </div>
+                        <div class="profile-actions">
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            <a href="/profile" class="btn btn-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    <form id="editForm">
-        <label for="name">Имя</label>
-        <input type="text" id="name" name="name" value="{{.Name}}" required>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
 
-        <label for="phone">Телефон</label>
-        <input type="text" id="phone" name="phone" value="{{.Phone}}" required>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
 
-        <label for="address">Адрес</label>
-        <input type="text" id="address" name="address" value="{{.Address}}" required>
-
-        <button type="submit" class="btn-submit">Сохранить изменения</button>
-    </form>
-
-    <div id="success-message">✅ Данные успешно обновлены!</div>
-
-    <a href="/profile" class="back-link">← Вернуться в профиль</a>
-</div>
-
-<script>
-    const form = document.getElementById('editForm');
-    const successMessage = document.getElementById('success-message');
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-
-        try {
-            const response = await fetch('/api/profile/edit_profile', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (result.message === "Успешное редактирование профиля") {
-                successMessage.style.display = 'block';
-                setTimeout(() => {
-                    window.location.href = '/profile';
-                }, 1500);
-            } else {
-                alert('Ошибка обновления данных');
-            }
-        } catch (err) {
-            console.error('Ошибка отправки формы:', err);
-            alert('Произошла ошибка при отправке формы');
-        }
-    });
-</script>
-
+    <script src="/static/js/edit_profile.js"></script>
 </body>
 </html>

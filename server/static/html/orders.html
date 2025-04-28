@@ -2,107 +2,138 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мои заказы</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: auto;
-        }
-        .order-card {
-            background: white;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: background-color 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .order-card:hover {
-            background-color: #f0f0f0;
-        }
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .order-details {
-            margin-top: 15px;
-        }
-        .order-details p, .order-details li {
-            margin: 5px 0;
-            color: #555;
-        }
-        .order-details ul {
-            padding-left: 20px;
-        }
-        .status {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        .empty-orders {
-            text-align: center;
-            margin-top: 100px;
-            font-size: 22px;
-            color: #666;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Мои заказы - Street Art Supplies</title>
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/orders.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div class="container">
-    {{if .Orders}}
-        <h1>Мои заказы</h1>
-
-        {{range .Orders}}
-            <a href="/profile/order/{{.OrderId}}" class="order-card">
-                <div class="order-header">
-                    <h2>Заказ от {{.OrderDate}}</h2>
-                    <div class="status">Статус: {{.Status}}</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="/products" class="nav-link">Каталог</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Категории</a>
+                    <div class="dropdown-content">
+                        <a href="/products/1" class="dropdown-item">Краски</a>
+                        <a href="/products/2" class="dropdown-item">Маркеры</a>
+                        <a href="/products/3" class="dropdown-item">Трафареты</a>
+                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
+                    </div>
                 </div>
-                <div class="order-details">
-                    <p><strong>Общая стоимость:</strong> {{.TotalPrice}} ₽</p>
-                    <p><strong>Товары:</strong></p>
-                    <ul>
-                        {{range .Products}}
-                            <li>{{.ProductName}} — {{.Count}} шт. ({{.Price}} ₽)</li>
-                        {{end}}
-                    </ul>
+                <a href="#" class="nav-link">О нас</a>
+                <a href="#" class="nav-link">Контакты</a>
+            </nav>
+            <div class="user-menu">
+                <a href="/profile/cart" class="nav-link">Корзина</a>
+                <div class="dropdown">
+                    <div class="user-avatar">В</div>
+                    <div class="dropdown-content">
+                        <a href="/profile" class="dropdown-item">Профиль</a>
+                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
+                        <a href="/api/logout" class="dropdown-item">Выйти</a>
+                    </div>
                 </div>
-            </a>
-        {{end}}
-
-        <a href="/profile" class="btn">Назад в профиль</a>
-
-    {{else}}
-        <div class="empty-orders">
-            <h2>У вас пока нет заказов.</h2>
-            <p><a href="/products" class="btn">Посмотреть товары</a></p>
+            </div>
         </div>
-    {{end}}
-</div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="orders-container">
+            {{if .Orders}}
+                <h1 class="orders-title">Мои заказы</h1>
+                <div class="orders-list">
+                    {{range .Orders}}
+                    <a href="/profile/order/{{.OrderId}}" class="order-card">
+                        <div class="order-header">
+                            <h2>Заказ от {{.OrderDate}}</h2>
+                            <div class="status status-{{.Status}}">Статус: {{.Status}}</div>
+                        </div>
+                        <div class="order-details">
+                            <p class="total-price">Общая стоимость: {{.TotalPrice}} ₽</p>
+                            <div class="products-list">
+                                <p class="products-title">Товары:</p>
+                                <ul>
+                                    {{range .Products}}
+                                    <li class="product-item">
+                                        <span class="product-name">{{.ProductName}}</span>
+                                        <span class="product-count">{{.Count}} шт.</span>
+                                        <span class="product-price">{{.Price}} ₽</span>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                            </div>
+                        </div>
+                    </a>
+                    {{end}}
+                </div>
+
+                <div class="orders-actions">
+                    <a href="/profile" class="btn btn-secondary">Назад в профиль</a>
+                </div>
+
+            {{else}}
+                <div class="empty-orders">
+                    <h1>У вас пока нет заказов</h1>
+                    <p>Начните покупки прямо сейчас!</p>
+                    <a href="/products" class="btn btn-primary">Перейти к товарам</a>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="/products/1">Краски</a></li>
+                    <li><a href="/products/2">Маркеры</a></li>
+                    <li><a href="/products/3">Трафареты</a></li>
+                    <li><a href="/products/4">Аксессуары</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Помощь</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Как сделать заказ</a></li>
+                    <li><a href="#">Статус заказа</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li>Email: info@streetart.supplies</li>
+                    <li>Телефон: +7 (999) 123-45-67</li>
+                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+        </div>
+    </footer>
 </body>
 </html>

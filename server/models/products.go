@@ -11,6 +11,21 @@ type Product struct {
 	Brand string 		`json:"brand"`
 }
 
+type ProductToOrder struct {
+	OrderId int 		`json:"order_id"`
+	ProductId int 		`json:"product_id"`
+	Name string 		`json:"name"`
+	Description string 	`json:"description"`
+	TotalPrice float64 	`json:"total_price"`
+	Count int 			`json:"stock"`
+	ImageUrl string 	`json:"image_url"`
+}
+
+type ProductsToOrder struct{
+	OrderId           int 					 `json:"order_id"`
+	ProductsToOrder []ProductToOrder `json:"products_to_order"`
+}
+
 type ProductToCart struct {
 	Id int 				`json:"id"`
 	Count int 			`json:"count"`

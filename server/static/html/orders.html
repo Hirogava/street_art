@@ -77,7 +77,7 @@
         <h1>Мои заказы</h1>
 
         {{range .Orders}}
-            <a href="/profile/order/{{.OrderDate}}" class="order-card">
+            <a href="/profile/order/{{.OrderId}}" class="order-card">
                 <div class="order-header">
                     <h2>Заказ от {{.OrderDate}}</h2>
                     <div class="status">Статус: {{.Status}}</div>

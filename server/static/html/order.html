@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали заказа №{{.OrderId}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+        .order-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .product-card {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .product-card:hover {
+            background-color: #f0f0f0;
+        }
+        .product-image img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-info h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+        .product-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="order-header">
+        <h1>Детали заказа №{{.OrderId}}</h1>
+    </div>
+
+    {{if .ProductsToOrder}}
+        {{range .ProductsToOrder}}
+        <a href="/product/{{.ProductId}}" class="product-card">
+            <div class="product-image">
+                <img src="{{.ImageUrl}}" alt="{{.Name}}">
+            </div>
+            <div class="product-info">
+                <h2>{{.Name}}</h2>
+                <p>{{.Description}}</p>
+                <p><strong>Количество:</strong> {{.Count}}</p>
+                <p><strong>Общая стоимость:</strong> {{.TotalPrice}} ₽</p>
+            </div>
+        </a>
+        {{end}}
+
+        <a href="/profile/orders" class="back-link">Назад к заказам</a>
+    {{else}}
+        <div class="order-header">
+            <h2>В этом заказе нет товаров.</h2>
+        </div>
+        <a href="/products" class="back-link">Перейти к покупкам</a>
+    {{end}}
+</div>
+
+</body>
+</html>

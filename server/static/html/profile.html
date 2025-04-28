@@ -57,6 +57,20 @@
         .btn:hover {
             background-color: #45a049;
         }
+        .btn-secondary {
+            margin-top: 10px;
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background-color: #0b7dda;
+        }
         .popup {
             position: fixed;
             top: 50%;
@@ -172,7 +186,8 @@
         <h2>Адрес: {{.Address}}</h2>
         <div class="balance" id="balance">Баланс: {{.Balance}} ₽</div>
 
-        <a href="/profile/cart" class="btn">Перейти в корзину</a>
+        <a href="/profile/cart" class="btn">Перейти в корзину</a><br>
+        <a href="/profile/orders" class="btn-secondary">Мои заказы</a><br>
         <button class="btn" onclick="openPopup()">Пополнить баланс</button>
 
         {{if gt .Balance 0.0}}

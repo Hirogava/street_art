@@ -72,3 +72,33 @@ func (manager *Manager) GetProductsForOrders(productOrders *[]models.ProductOrde
 
 	return nil
 }
+
+func (manager *Manager) GetOrderDetails(orderId int) (models.ProductsToOrder, error) {
+	var products models.ProductsToOrder
+	rows, err := manager.Conn.Query(`SELECT
+										o.product_id,
+										p.name,
+										p.description,
+										o.price,
+										o.quantity,
+										p.image_url
+										FROM order_items AS o
+										JOIN products AS p ON p.id = o.product_id
+										WHERE order_id = $1`, orderId)
+	if err != nil {
+		return models.ProductsToOrder{}, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var product models.ProductToOrder
+		err := rows.Scan(&product.ProductId, &product.Name, &product.Description, &product.TotalPrice, &product.Count, &product.ImageUrl)
+		if err != nil {
+				return models.ProductsToOrder{}, err
+		}
+		products.ProductsToOrder = append(products.ProductsToOrder, product)
+	}
+	products.OrderId = orderId
+
+	return products, nil
+}

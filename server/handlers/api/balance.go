@@ -1,12 +1,14 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"street-art/db"
 	"street-art/models"
 	"street-art/services/cookies"
+	"time"
 )
 
 func Deposit(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -27,7 +29,6 @@ func Deposit(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		"status": "ok",
 		"new_balance": updatedBalance,
 	})
-	
 }
 
 func Purchase(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -61,4 +62,31 @@ func Purchase(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		"status": "ok",
 		"order_id": orderId,
 	})
+
+	// ctx, cancel := context.WithCancel(context.Background())
+	// defer cancel()
+	// wg := &sync.WaitGroup{}
+
+	// wg.Add(2)
+	// go ordersmanager.OrderProcessing(ctx, orderId, manager, wg)
+	// go ordersmanager.OrderDelivered(ctx, orderId, manager, wg)
+	// wg.Wait()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+    
+    go func(ctx context.Context, orderId int, manager *db.Manager) {
+        defer cancel()
+        
+        select {
+        case <-time.After(time.Second * 10):
+            err := manager.UpdateOrderStatus(orderId, models.OrderDone)
+            if err != nil {
+                log.Println("Ошибка обновления статуса заказа:", err)
+            } else {
+                log.Printf("Заказ %d успешно обновлен до статуса 'отправлен'\n", orderId)
+            }
+        case <-ctx.Done():
+            log.Println("Обновление статуса заказа отменено:", ctx.Err())
+        }
+    }(ctx, orderId, manager)
 }

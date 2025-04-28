@@ -102,3 +102,8 @@ func (manager *Manager) GetOrderDetails(orderId int) (models.ProductsToOrder, er
 
 	return products, nil
 }
+
+func (manager *Manager) UpdateOrderStatus(orderId int, status string) error {
+	_, err := manager.Conn.Exec("UPDATE orders SET status = $1 WHERE id = $2", status, orderId)
+	return err
+}

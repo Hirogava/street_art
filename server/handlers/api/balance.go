@@ -30,7 +30,7 @@ func Deposit(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	
 }
 
-func Purchase (w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+func Purchase(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	userId := cookies.GetUserIdCookie(r)
 
 	var order models.Orders

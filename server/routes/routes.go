@@ -63,7 +63,7 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	}).Methods(http.MethodGet)
 
 	user.HandleFunc("/edit", func(w http.ResponseWriter, r *http.Request) {
-		handlers.EditProfile(w, r)
+		handlers.EditProfile(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	user.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {

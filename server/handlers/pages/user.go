@@ -37,9 +37,20 @@ func Profile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	tmpl.Execute(w, user)
 }
 
-func EditProfile(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("static/html/index.html"))
-	tmpl.Execute(w, nil)
+func EditProfile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	user := cookies.GetUserCookie(r, w)
+
+	balance, err := manager.GetUserBalance(user.Id)
+	if err != nil {
+		log.Println("Ошибка получения баланса пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	user.Balance = balance
+
+	tmpl := template.Must(template.ParseFiles("static/html/edit_profile.html"))
+	tmpl.Execute(w, user)
 }
 
 func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {

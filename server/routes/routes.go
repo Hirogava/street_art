@@ -45,7 +45,7 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/products/{category_id}", func(w http.ResponseWriter, r *http.Request) {
-		handlers.ProductsByCategory(w, r)
+		handlers.ProductsByCategory(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	/*

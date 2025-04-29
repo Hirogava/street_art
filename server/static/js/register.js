@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 showNotification('Регистрация успешна! Перенаправление...', 'success');
                 setTimeout(() => {
-                    window.location.href = '/profile';
+                    window.location.href = '/';
                 }, 1000);
             } else {
                 showNotification(result.message || 'Ошибка регистрации');

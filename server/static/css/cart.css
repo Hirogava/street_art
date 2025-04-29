@@ -41,11 +41,17 @@
     text-align: center;
 }
 
+.cart-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
 .cart-items {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-bottom: 40px;
 }
 
 .product {
@@ -105,7 +111,8 @@
     transition: background-color var(--transition-speed);
     text-decoration: none;
     display: inline-block;
-    margin-top: 20px;
+    text-align: center;
+    margin-top: 25px;
 }
 
 .btn:hover {
@@ -135,31 +142,15 @@
     cursor: pointer;
     transition: background-color var(--transition-speed);
     display: inline-block;
-    margin-top: 30px;
+    text-align: center;
 }
 
 .btn-clear:hover {
     background-color: var(--color-warning-hover);
 }
 
-.summary {
-    background-color: var(--color-spray-white);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    padding: 30px;
-    margin-top: 40px;
-    max-width: 400px;
-}
-
-.summary h2 {
-    font-size: 1.8rem;
-    color: var(--color-jet-black);
-    margin-bottom: 20px;
-    text-align: center;
-}
-
 .btn-order {
-    background-color: var(--color-electric-blue);
+    background-color: var(--color-primary);
     color: var(--color-spray-white);
     padding: 12px 24px;
     border: none;
@@ -167,12 +158,39 @@
     cursor: pointer;
     transition: background-color var(--transition-speed);
     display: inline-block;
-    margin-top: 30px;
+    text-align: center;
     font-size: 1rem;
 }
 
 .btn-order:hover {
-    background-color: var(--color-electric-blue-hover);
+    background-color: var(--color-primary-hover);
+}
+
+.cart-sidebar {
+    width: 300px;
+    position: sticky;
+    top: 100px;
+}
+
+.cart-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.summary {
+    background-color: var(--color-spray-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 20px;
+    text-align: center;
+}
+
+.summary h2 {
+    font-size: 1.2rem;
+    color: var(--color-jet-black);
+    margin-bottom: 10px;
 }
 
 .empty-cart {
@@ -220,14 +238,6 @@
     to {opacity: 0;}
 }
 
-.cart-actions {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 30px;
-}
-
 @media (max-width: 768px) {
     .cart-container {
         padding: 20px 10px;
@@ -255,10 +265,16 @@
         margin-top: 15px;
     }
 
-    .summary {
-        max-width: 100%;
+    .cart-content {
+        flex-direction: column;
     }
-
+    
+    .cart-sidebar {
+        width: 100%;
+        position: static;
+        margin-top: 20px;
+    }
+    
     .cart-actions {
         flex-direction: column;
     }

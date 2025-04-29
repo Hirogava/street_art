@@ -52,38 +52,37 @@
         <div class="cart-container">
             {{if .ProductsFromCart}}
                 <h1 class="cart-title">Ваша корзина</h1>
-                <div class="cart-items">
-                    {{range .ProductsFromCart}}
-                    <div class="product" id="product-{{.CartId}}">
-                        <a href="/product/{{.ProductId}}" class="product-link">
-                            <img src="{{.ImageUrl}}" alt="{{.Name}}">
-                            <div class="product-details">
-                                <h2>{{.Name}}</h2>
-                                <p>{{.Description}}</p>
-                                <p>Цена за 1 шт: {{.Price}} ₽</p>
-                                <p>Количество: {{.Count}}</p>
-                                <p>Итого: {{.TotalPrice}} ₽</p>
-                            </div>
-                        </a>
-                        <button class="btn-delete" onclick="deleteProduct({{.CartId}}, {{.ProductId}})">Удалить из корзины</button>
+                <div class="cart-content">
+                    <div class="cart-items">
+                        {{range .ProductsFromCart}}
+                        <div class="product" id="product-{{.CartId}}">
+                            <a href="/product/{{.ProductId}}" class="product-link">
+                                <img src="{{.ImageUrl}}" alt="{{.Name}}">
+                                <div class="product-details">
+                                    <h2>{{.Name}}</h2>
+                                    <p>{{.Description}}</p>
+                                    <p>Цена за 1 шт: {{.Price}} ₽</p>
+                                    <p>Количество: {{.Count}}</p>
+                                    <p>Итого: {{.TotalPrice}} ₽</p>
+                                </div>
+                            </a>
+                            <button class="btn-delete" onclick="deleteProduct({{.CartId}}, {{.ProductId}})">Удалить из корзины</button>
+                        </div>
+                        {{end}}
                     </div>
-                    {{end}}
-                </div>
 
-                <div class="cart-actions">
-                    <a href="/products" class="btn">Вернуться к товарам</a>
-                </div>
+                    <div class="cart-sidebar">
+                        <div class="summary">
+                            <h2>Всего товаров: <span id="total-count">{{.Count}}</span></h2>
+                            <h2>Общая стоимость: <span id="total-price">{{.TotalPrice}}</span> ₽</h2>
+                        </div>
 
-                <div class="summary">
-                    <h2>Всего товаров: <span id="total-count">{{.Count}}</span></h2>
-                    <h2>Общая стоимость: <span id="total-price">{{.TotalPrice}}</span> ₽</h2>
+                        <div class="cart-actions">
+                            <button class="btn-order" onclick="makeOrder()">Сделать заказ</button>
+                            <button class="btn-clear" onclick="clearCart()">Очистить корзину</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="cart-actions">
-                    <button class="btn-order" onclick="makeOrder()">Сделать заказ</button>
-                    <button class="btn-clear" onclick="clearCart()">Очистить корзину</button>
-                </div>
-
             {{else}}
                 <div class="empty-cart">
                     <h1>Ваша корзина пуста</h1>
@@ -91,7 +90,7 @@
                     <a href="/products" class="btn">Перейти к товарам</a>
                 </div>
             {{end}}
-
+            <a href="/products" class="btn">Вернуться к товарам</a>
             <div class="popup" id="successPopup">Заказ успешно оформлен!</div>
         </div>
     </main>

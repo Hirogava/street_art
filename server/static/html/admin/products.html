@@ -1,11 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Продукты — Админка</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+            --border-radius: 10px;
+        }
+
+        body {
+            background-color: var(--color-jet-black);
+            color: var(--color-spray-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--color-neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--color-electric-blue);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .product-card {
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #eee;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            margin: 0 0 10px;
+            color: var(--color-neon-red);
+        }
+
+        .product-info p {
+            margin: 4px 0;
+        }
+
+        .badge {
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .product-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+<header>Все продукты</header>
+
+<div class="container">
+    <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
+
+    {{if .}}
+    {{range .}}
+    <a href="/admin/products/{{.Id}}" class="product-link">
+        <div class="product-card">
+            <img src="{{.ImageUrl}}" alt="{{.Name}}" class="product-img">
+            <div class="product-info">
+                <h3>{{.Name}}</h3>
+                <p>{{.Description}}</p>
+                <p><strong>Цена:</strong> {{printf "%.2f" .Price}} ₽</p>
+                <p><strong>В наличии:</strong> {{.Stock}} шт.</p>
+                <p>
+                    <span class="badge">{{.Category}}</span>
+                    <span class="badge">{{.Brand}}</span>
+                </p>
+            </div>
+        </div>
+    </a>
+    {{end}}
+    {{else}}
+    <p>Продукты не найдены.</p>
+    {{end}}
+
+</div>
+
 </body>
 </html>

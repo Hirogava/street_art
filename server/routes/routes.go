@@ -80,9 +80,10 @@ func Routes(r *mux.Router, manager *db.Manager) {
 
 func AdminRoutes(r *mux.Router, manager *db.Manager) {
 	admin := r.PathPrefix("/admin").Subrouter()
+	adminWithoutAuth := r.PathPrefix("/admin").Subrouter()
 	admin.Use(auth.AuthRequired("admin"))
 
-	admin.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+	adminWithoutAuth.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		panel.Login(w, r, manager)
 	}).Methods(http.MethodGet)
 

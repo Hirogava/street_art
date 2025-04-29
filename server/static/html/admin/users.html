@@ -1,11 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=	, initial-scale=1.0">
-    <title>Document</title>
+    <title>Пользователи</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+
+            --border-radius: 10px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-jet-black);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-spray-white);
+        }
+
+        header {
+            background-color: var(--color-neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .user-card {
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .user-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--color-neon-red);
+        }
+
+        .user-info {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .user-info p {
+            margin: 6px 0;
+            color: var(--color-jet-black);
+        }
+
+        .badge {
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--color-electric-blue);
+            text-decoration: none;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+
+        .user-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+<header>Пользователи</header>
+
+<div class="container">
+    <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
+
+    {{range .}}
+    <a href="/admin/users/{{.Id}}" class="user-link">
+        <div class="user-card">
+            <div class="user-header">
+                <h3>{{.Name}}</h3>
+                <span class="badge">ID: {{.Id}}</span>
+            </div>
+            <div class="user-info">
+                <p><strong>Email:</strong> {{.Email}}</p>
+                <p><strong>Телефон:</strong> {{.Phone}}</p>
+                <p><strong>Адрес:</strong> {{.Address}}</p>
+                <p><strong>Баланс:</strong> {{printf "%.2f" .Balance}} ₽</p>
+            </div>
+        </div>
+    </a>
+    {{end}}
+
+    {{if not .}}
+    <p>Нет зарегистрированных пользователей.</p>
+    {{end}}
+</div>
+
 </body>
 </html>

@@ -3,53 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ панель</title>
+    <title>Вход в админку</title>
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+
+            --color-neon-red-hover: #ff1a1f;
+            --color-electric-blue-hover: #0099cc;
+            --font-primary: 'Roboto', sans-serif;
+
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-primary);
+            background-color: var(--color-jet-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: var(--color-spray-white);
+        }
+
+        .login-container {
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-container input {
+            width: 93.2%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--color-concrete-grey);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            outline: none;
+            transition: border-color var(--transition-speed);
+        }
+
+        .login-container input:focus {
+            border-color: var(--color-electric-blue);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--color-neon-red);
+            color: white;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .login-container button:hover {
+            background-color: var(--color-neon-red-hover);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .notification.show {
+            display: block;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes fadeout {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+    </style>
 </head>
 <body>
-    <form id="loginForm" action="/api/admin/login" method="post">
-        <input type="text" name="email" value="">
-        <input type="password" name="password" value="">
+    <div class="login-container">
+        <h2>Вход в админку</h2>
+        <form id="loginForm" action="/api/admin/login" method="post">
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
 
-        <button type="submit">Войти</button>
-    </form>
+    <div id="notification" class="notification">Успешный вход в админку</div>
 
     <script>
-    const loginForm = document.getElementById('loginForm');
+        const loginForm = document.getElementById('loginForm');
+        const notification = document.getElementById('notification');
 
-    loginForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
 
-        const formData = new FormData(loginForm);
-        const submitButton = loginForm.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
+            const formData = new FormData(loginForm);
+            const submitButton = loginForm.querySelector('button');
+            const originalText = submitButton.textContent;
 
-        try {
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="loading-spinner"></span>';
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Вход...';
 
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                body: formData
-            });
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-            if (response.ok) {
-                setTimeout(() => {
-                    window.location.href = '/admin/dashboard';
-                }, 1000);
-            } else {
-                showNotification(result.message || 'Ошибка авторизации');
+                if (response.ok) {
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        window.location.href = '/admin/dashboard';
+                    }, 2000);
+                } else {
+                    showNotification(result.message || 'Ошибка авторизации');
+                }
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка соединения с сервером');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
             }
-        } catch (error) {
-            console.error('Ошибка:', error);
-            showNotification('Ошибка соединения с сервером');
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = originalButtonText;
+        });
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
-    });
-            
     </script>
 </body>
 </html>

@@ -1,11 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Все заказы</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+            --border-radius: 10px;
+        }
+
+        body {
+            background-color: var(--color-jet-black);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-spray-white);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--color-neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .order-card {
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .order-header h3 {
+            margin: 0;
+            color: var(--color-neon-red);
+        }
+
+        .badge {
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .order-info p {
+            margin: 6px 0;
+        }
+
+        .products-list {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .products-list li {
+            margin-bottom: 6px;
+            list-style-type: square;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--color-electric-blue);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .order-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+<header>Все заказы</header>
+
+<div class="container">
+    <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
+
+    {{if .Orders}}
+    {{range .Orders}}
+    <a href="/admin/orders/{{.OrderId}}" class="order-link">
+        <div class="order-card">
+            <div class="order-header">
+                <h3>Заказ #{{.OrderId}}</h3>
+                <span class="badge">{{.OrderDate}}</span>
+            </div>
+            <div class="order-info">
+                <p><strong>ID пользователя:</strong> {{.UserId}}</p>
+                <p><strong>Статус:</strong> {{.Status}}</p>
+                <p><strong>Сумма:</strong> {{printf "%.2f" .TotalPrice}} ₽</p>
+            </div>
+            <div class="products-list">
+                <strong>Товары:</strong>
+                <ul>
+                    {{range .Products}}
+                    <li>{{.ProductName}} — {{.Count}} шт. × {{printf "%.2f" .Price}} ₽</li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+    </a>
+    {{end}}
+    {{else}}
+    <p>Заказы не найдены.</p>
+    {{end}}
+</div>
+
 </body>
 </html>

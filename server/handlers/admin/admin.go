@@ -63,8 +63,20 @@ func Products(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 }
 
 func Categories(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		if err.Error() == "no categories" {
+			tmpl := template.Must(template.ParseFiles("static/html/admin/categories.html"))
+			tmpl.Execute(w, nil)
+			return
+		}
+		log.Println("Ошибка получения списка категорий:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("static/html/admin/categories.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, categories)
 }
 
 func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {

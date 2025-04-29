@@ -1,17 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Админ-панель</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+
+            --border-radius: 10px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-jet-black);
+            color: var(--color-spray-white);
+        }
+
+        header {
+            background-color: var(--color-neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: var(--color-concrete-grey);
+        }
+
+        .icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: var(--color-electric-blue);
+        }
+    </style>
 </head>
 <body>
-    <a href="/admin/users">Все пользователи</a>
-    <br>
-    <a href="/admin/orders">Все заказы</a>
-    <br>
-    <a href="/admin/products">Все продукты</a>
-    <br>
-    <a href="/admin/categories">Все категории</a>
+
+<header>Админ-Панель</header>
+
+<div class="dashboard">
+    <a class="card" href="/admin/users">
+        <div class="icon"><i class="fas fa-users"></i></div>
+        <h3>Пользователи</h3>
+        <p>Управление всеми пользователями</p>
+    </a>
+
+    <a class="card" href="/admin/orders">
+        <div class="icon"><i class="fas fa-box"></i></div>
+        <h3>Заказы</h3>
+        <p>Просмотр и обработка заказов</p>
+    </a>
+
+    <a class="card" href="/admin/products">
+        <div class="icon"><i class="fas fa-spray-can"></i></div>
+        <h3>Продукты</h3>
+        <p>Редактирование и добавление товаров</p>
+    </a>
+
+    <a class="card" href="/admin/categories">
+        <div class="icon"><i class="fas fa-tags"></i></div>
+        <h3>Категории</h3>
+        <p>Управление категориями</p>
+    </a>
+
+    <a class="card" href="/api/admin/logout">
+        <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
+        <h3>Выход</h3>
+        <p>Завершить сессию</p>
+    </a>
+</div>
+
 </body>
 </html>

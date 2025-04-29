@@ -1,11 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Категории — Админка</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        :root {
+            --color-jet-black: #1A1A1A;
+            --color-neon-red: #FF3B3F;
+            --color-electric-blue: #00AEEF;
+            --color-concrete-grey: #CCCCCC;
+            --color-spray-white: #F9F9F9;
+            --border-radius: 10px;
+        }
+
+        body {
+            background-color: var(--color-jet-black);
+            color: var(--color-spray-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--color-neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--color-electric-blue);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .category-card {
+            display: flex;
+            gap: 20px;
+            background-color: var(--color-spray-white);
+            color: var(--color-jet-black);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .category-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #eee;
+        }
+
+        .category-info {
+            flex: 1;
+        }
+
+        .category-info h3 {
+            margin: 0 0 10px;
+            color: var(--color-neon-red);
+        }
+
+        .category-info p {
+            margin: 4px 0;
+        }
+
+        .category-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+<header>Категории продуктов</header>
+
+<div class="container">
+    <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
+
+    {{if .}}
+    {{range .}}
+    <a href="/admin/categories/{{.Id}}" class="category-link">
+        <div class="category-card">
+            <img src="{{.ImageUrl}}" alt="{{.Name}}" class="category-img">
+            <div class="category-info">
+                <h3>{{.Name}}</h3>
+                <p>{{.Description}}</p>
+            </div>
+        </div>
+    </a>
+    {{end}}
+    {{else}}
+    <p>Категории не найдены.</p>
+    {{end}}
+
+</div>
+
 </body>
 </html>

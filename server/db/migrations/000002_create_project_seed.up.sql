@@ -12,29 +12,29 @@ INSERT INTO brands (name, description) VALUES
 ('Loop', 'Бренд трафаретов и аксессуаров для стрит-арта');
 
 INSERT INTO products (name, description, price, category_id, stock, image_url, brand_id) VALUES
-('Molotow Premium 400ml', 'Премиальная краска с высоким покрытием', 550.00, 1, 35, '/static/prod_img/category/1/3.jpg', 1),
-('Ironlak Fat Cap', 'Краска с увеличенным соплом для толстых линий', 420.00, 1, 60, '/static/prod_img/category/1/4.jpg', 2),
-('MTN 94 400ml', 'Классическая краска с мягким распылением', 470.00, 1, 45, '/static/prod_img/category/1/5.jpg', 3),
-('KRINK K-71', 'Экспериментальная краска с уникальной текстурой', 600.00, 1, 25, '/static/prod_img/category/1/6.jpg', 4);
+('Molotow Premium 400ml', 'Премиальная краска с высоким покрытием', 550.00, 1, 35, '/static/prod_img/category/1/Molotow Premium 400ml-no-bg.png', 1),
+('Ironlak Fat Cap', 'Краска с увеличенным соплом для толстых линий', 420.00, 1, 60, '/static/prod_img/category/1/Ironlak Fat Cap-no-bg.png', 2),
+('MTN 94 400ml', 'Классическая краска с мягким распылением', 470.00, 1, 45, '/static/prod_img/category/1/MTN 94 400ml-no-bg.png', 3),
+('KRINK K-71', 'Экспериментальная краска с уникальной текстурой', 600.00, 1, 25, '/static/prod_img/category/1/K-71_Black-no-bg.png', 4);
 
 INSERT INTO products (name, description, price, category_id, stock, image_url, brand_id) VALUES
-('Molotow ONE4ALL', 'Универсальный маркер на водной основе', 350.00, 2, 70, '/static/prod_img/category/2/3.jpg', 1),
-('KRINK K-60', 'Маркер с масляной основой для перманентных отметок', 400.00, 2, 50, '/static/prod_img/category/2/4.jpg', 3),
-('MTN Water Based', 'Экологичный маркер на водной основе', 280.00, 2, 90, '/static/prod_img/category/2/5.jpg', 4),
-('Ironlak Marker', 'Прочный маркер с тонким наконечником', 320.00, 2, 65, '/static/prod_img/category/2/6.jpg', 5);
+('Molotow ONE4ALL', 'Универсальный маркер на водной основе', 350.00, 2, 70, '/static/prod_img/category/2/Molotow ONE4ALL-no-bg.png', 1),
+('KRINK K-60', 'Маркер с масляной основой для перманентных отметок', 400.00, 2, 50, '/static/prod_img/category/2/KRINK K-60-no-bg.png', 3),
+('MTN Water Based', 'Экологичный маркер на водной основе', 280.00, 2, 90, '/static/prod_img/category/2/MTN Water Based-no-bg.png', 4),
+('Ironlak Marker', 'Прочный маркер с тонким наконечником', 320.00, 2, 65, '/static/prod_img/category/2/Ironlak Marker-no-bg.png', 5);
 
 INSERT INTO products (name, description, price, category_id, stock, image_url, brand_id) VALUES
-('Loop Starter Kit', 'Набор трафаретов для начинающих', 1200.00, 3, 30, '/static/prod_img/category/3/4.jpg', 5),
-('Urban Stencil Pack', 'Набор городских тематических трафаретов', 950.00, 3, 25, '/static/prod_img/category/3/5.jpg', 1),
-('Political Stencil Set', 'Политические и социальные трафареты', 850.00, 3, 20, '/static/prod_img/category/3/6.jpg', 2),
-('Animal Silhouettes', 'Набор трафаретов с силуэтами животных', 780.00, 3, 35, '/static/prod_img/category/3/7.jpg', 3);
+('Loop Starter Kit', 'Набор трафаретов для начинающих', 1200.00, 3, 30, '/static/prod_img/category/3/Loop Starter Kit.jpg', 5),
+('Urban Stencil Pack', 'Набор городских тематических трафаретов', 950.00, 3, 25, '/static/prod_img/category/3/Urban Stencil Pack.jpg', 1),
+('Political Stencil Set', 'Политические и социальные трафареты', 850.00, 3, 20, '/static/prod_img/category/3/Political Stencil Set.png', 2),
+('Animal Silhouettes', 'Набор трафаретов с силуэтами животных', 780.00, 3, 35, '/static/prod_img/category/3/Animal Silhouettes.png', 3);
 
 INSERT INTO products (name, description, price, category_id, stock, image_url, brand_id) VALUES
-('Респиратор Montana', 'Защитный респиратор для работы с краской', 1200.00, 4, 40, '/static/prod_img/category/4/1.jpg', 1),
-('Перчатки Molotov', 'Защитные перчатки для художников', 450.00, 4, 60, '/static/prod_img/category/4/2.jpg', 2),
-('Кепка KRINK', 'Фирменная кепка с логотипом KRINK', 1800.00, 4, 30, '/static/prod_img/category/4/3.jpg', 4),
-('Рюкзак MTN', 'Стильный рюкзак для переноски баллонов', 3500.00, 4, 25, '/static/prod_img/category/4/4.jpg', 5),
-('Футболка Arton', 'Хлопковая футболка с принтом', 2200.00, 4, 50, '/static/prod_img/category/4/5.jpg', 1);
+('Респиратор Montana', 'Защитный респиратор для работы с краской', 1200.00, 4, 40, '/static/prod_img/category/4/Респиратор Montana-no-bg.png', 1),
+('Перчатки Molotov', 'Защитные перчатки для художников', 450.00, 4, 60, '/static/prod_img/category/4/Перчатки Ironlak-no-bg.png', 2),
+('Кепка KRINK', 'Фирменная кепка с логотипом KRINK', 1800.00, 4, 30, '/static/prod_img/category/4/Кепка KRINK-no-bg.png', 4),
+('Рюкзак MTN', 'Стильный рюкзак для переноски баллонов', 3500.00, 4, 25, '/static/prod_img/category/4/Рюкзак MTN-no-bg.png', 5),
+('Футболка Arton', 'Хлопковая футболка с принтом', 2200.00, 4, 50, '/static/prod_img/category/4/Футболка Loop.jpg', 1);
 
 INSERT INTO top_products (product_id) VALUES
 (1), (3), (7), (4), (2);

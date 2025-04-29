@@ -116,3 +116,40 @@ func (manager *Manager) UpdateOrderStatus(orderId int, status string) error {
 	_, err := manager.Conn.Exec("UPDATE orders SET status = $1 WHERE id = $2", status, orderId)
 	return err
 }
+
+func (manager *Manager) GetAllOrdersForAdmin() (models.UserOrders, error) {
+	var userOrders models.UserOrders
+
+	rows, err := manager.Conn.Query("SELECT id, order_date, status, total_price, user_id FROM orders")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.UserOrders{}, fmt.Errorf("no orders")
+		}
+		return models.UserOrders{}, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var order models.Orders
+
+		err := rows.Scan(&order.OrderId, &order.OrderDate, &order.Status, &order.TotalPrice, &order.UserId)
+		if err != nil {
+			return models.UserOrders{}, err
+		}
+
+		parsedTime, err := time.Parse(time.RFC3339Nano, order.OrderDate)
+		if err != nil {
+			return models.UserOrders{}, err
+		}
+		order.OrderDate = parsedTime.Format("02.01.2006 15:04")
+
+		err = manager.GetProductsForOrders(&order.Products, order.OrderId)
+		if err != nil {
+			return models.UserOrders{}, err
+		}
+
+		userOrders.Orders = append(userOrders.Orders, order)
+	}
+
+	return userOrders, nil
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель</title>
+</head>
+<body>
+    <form id="loginForm" action="/api/admin/login" method="post">
+        <input type="text" name="email" value="">
+        <input type="password" name="password" value="">
+
+        <button type="submit">Войти</button>
+    </form>
+
+    <script>
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(loginForm);
+        const submitButton = loginForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+
+        try {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading-spinner"></span>';
+
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setTimeout(() => {
+                    window.location.href = '/admin/dashboard';
+                }, 1000);
+            } else {
+                showNotification(result.message || 'Ошибка авторизации');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            showNotification('Ошибка соединения с сервером');
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        }
+    });
+            
+    </script>
+</body>
+</html>

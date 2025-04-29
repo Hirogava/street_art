@@ -31,10 +31,12 @@ INSERT INTO products (name, description, price, category_id, stock, image_url, b
 
 INSERT INTO products (name, description, price, category_id, stock, image_url, brand_id) VALUES
 ('Респиратор Montana', 'Защитный респиратор для работы с краской', 1200.00, 4, 40, '/static/prod_img/category/4/1.jpg', 1),
-('Перчатки Ironlak', 'Защитные перчатки для художников', 450.00, 4, 60, '/static/prod_img/category/4/2.jpg', 2),
+('Перчатки Molotov', 'Защитные перчатки для художников', 450.00, 4, 60, '/static/prod_img/category/4/2.jpg', 2),
 ('Кепка KRINK', 'Фирменная кепка с логотипом KRINK', 1800.00, 4, 30, '/static/prod_img/category/4/3.jpg', 4),
 ('Рюкзак MTN', 'Стильный рюкзак для переноски баллонов', 3500.00, 4, 25, '/static/prod_img/category/4/4.jpg', 5),
-('Футболка Loop', 'Хлопковая футболка с принтом', 2200.00, 4, 50, '/static/prod_img/category/4/5.jpg', 1);
+('Футболка Arton', 'Хлопковая футболка с принтом', 2200.00, 4, 50, '/static/prod_img/category/4/5.jpg', 1);
 
 INSERT INTO top_products (product_id) VALUES
 (1), (3), (7), (4), (2);
+
+insert into admin_panel(email, password_hash) values('t@t', '$2a$10$JkAj4y.p3YYYMpveNfZmdO.18yDdduAh.nhi.iTyntIlHj4IeImAK');

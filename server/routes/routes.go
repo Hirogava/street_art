@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"street-art/db"
 	"street-art/handlers/pages"
+	panel "street-art/handlers/admin"
 	auth "street-art/routes/middlewares"
 
 	"github.com/gorilla/mux"
@@ -12,6 +13,8 @@ import (
 func Init(r *mux.Router, manager *db.Manager) {
 	Routes(r, manager)
 	ApiRoutes(r, manager)
+	AdminRoutes(r, manager)
+	AdminApiRoutes(r, manager)
 }
 
 func Routes(r *mux.Router, manager *db.Manager) {
@@ -73,4 +76,49 @@ func Routes(r *mux.Router, manager *db.Manager) {
 	user.HandleFunc("/order/{id}", func(w http.ResponseWriter, r *http.Request) {
 		handlers.OrderDetails(w, r, manager)
 	}).Methods(http.MethodGet)
+}
+
+func AdminRoutes(r *mux.Router, manager *db.Manager) {
+	admin := r.PathPrefix("/admin").Subrouter()
+	admin.Use(auth.AuthRequired("admin"))
+
+	admin.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		panel.Login(w, r, manager)
+	}).Methods(http.MethodGet)
+
+	admin.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
+		panel.Dashboard(w, r, manager)
+	})
+
+	admin.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		panel.Users(w, r, manager)
+	})
+
+	admin.HandleFunc("/users/{id}", func(w http.ResponseWriter, r *http.Request) {
+		panel.User(w, r, manager)
+	})
+
+	admin.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
+		panel.Products(w, r, manager)
+	})
+
+	admin.HandleFunc("/products/{id}", func(w http.ResponseWriter, r *http.Request) {
+		panel.Product(w, r, manager)
+	})
+
+	admin.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
+		panel.Orders(w, r, manager)
+	})
+
+	admin.HandleFunc("/orders/{id}", func(w http.ResponseWriter, r *http.Request) {
+		panel.Order(w, r, manager)
+	})
+
+	admin.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
+		panel.Categories(w, r, manager)
+	})
+
+	admin.HandleFunc("/categories/{id}", func(w http.ResponseWriter, r *http.Request) {
+		panel.Category(w, r, manager)
+	})
 }

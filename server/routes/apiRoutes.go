@@ -70,3 +70,16 @@ func ApiRoutes(r *mux.Router, manager *db.Manager) {
 		api.Purchase(w, r, manager)
 	}).Methods(http.MethodPost)
 }
+
+func AdminApiRoutes(r *mux.Router, manager *db.Manager) {
+	adminRout := r.PathPrefix("/api/admin").Subrouter()
+	adminRout.Use(auth.AuthRequired("admin"))
+
+	adminRout.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		api.AdminLogin(w, r, manager)
+	})
+
+	adminRout.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		api.AdminLogout(w, r, manager)
+	})
+}

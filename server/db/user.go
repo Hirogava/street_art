@@ -48,3 +48,26 @@ func (manager *Manager) UpdateUserInfo(user *models.User) error {
 
 	return nil
 }
+
+func (manager *Manager) GetAllUsers() ([]models.User, error) {
+	var users []models.User
+	query := `SELECT id, name, email, phone, address, balance FROM users;`
+
+	rows, err := manager.Conn.Query(query)
+	if err != nil {
+		return nil, err
+	}
+   	defer rows.Close()
+
+	for rows.Next() {
+		var user models.User
+		err = rows.Scan(&user.Id, &user.Name, &user.Email, &user.Phone, &user.Address, &user.Balance)
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, user)
+	}
+
+	return users, nil
+}

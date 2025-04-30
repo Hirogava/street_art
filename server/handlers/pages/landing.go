@@ -22,7 +22,11 @@ func Landing(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/index.html"))
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/index.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
 	tmpl.Execute(w, map[string]interface{}{
 		"Categories": categories,
 		"Products":   topProducts,

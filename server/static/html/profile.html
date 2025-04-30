@@ -13,54 +13,21 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container header-container">
-            <div class="logo">
-                <a href="/">
-                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
-                </a>
-            </div>
-            <nav class="nav">
-                <a href="/products" class="nav-link">Каталог</a>
-                <div class="dropdown">
-                    <a href="#" class="nav-link">Категории</a>
-                    <div class="dropdown-content">
-                        <a href="/products/1" class="dropdown-item">Краски</a>
-                        <a href="/products/2" class="dropdown-item">Маркеры</a>
-                        <a href="/products/3" class="dropdown-item">Трафареты</a>
-                        <a href="/products/4" class="dropdown-item">Аксессуары</a>
-                    </div>
-                </div>
-                <a href="#" class="nav-link">О нас</a>
-                <a href="#" class="nav-link">Контакты</a>
-            </nav>
-            <div class="user-menu">
-                <a href="/profile/cart" class="nav-link">Корзина</a>
-                <div class="dropdown">
-                    <div class="user-avatar">П</div>
-                    <div class="dropdown-content">
-                        <a href="/profile" class="dropdown-item">Профиль</a>
-                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
-                        <a href="/api/logout" class="dropdown-item">Выйти</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    {{template "header" .}}
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
             <div class="profile-container">
                 <div class="profile-card">
-                    <h1 class="profile-title">{{.Name}}</h1>
+                    <h1 class="profile-title">{{.User.Name}}</h1>
                     <div class="profile-info">
-                        <p><strong>Email:</strong> {{.Email}}</p>
-                        <p><strong>Телефон:</strong> {{.Phone}}</p>
-                        <p><strong>Адрес:</strong> {{.Address}}</p>
+                        <p><strong>Email:</strong> {{.User.Email}}</p>
+                        <p><strong>Телефон:</strong> {{.User.Phone}}</p>
+                        <p><strong>Адрес:</strong> {{.User.Address}}</p>
                         <div class="balance">
                             <span>Баланс:</span>
-                            <span class="balance-amount">{{.Balance}} ₽</span>
+                            <span class="balance-amount">{{.User.Balance}} ₽</span>
                         </div>
                     </div>
 
@@ -71,7 +38,7 @@
                         <button class="btn btn-primary" onclick="openModal()">Пополнить баланс</button>
                     </div>
 
-                    {{if gt .Balance 0.0}}
+                    {{if gt .User.Balance 0.0}}
                     <div class="products-promo">
                         <a href="/products" class="products-link">
                             У вас есть средства! Посмотреть товары →
@@ -84,48 +51,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-section">
-                <h3>О компании</h3>
-                <ul class="footer-links">
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li><a href="#">Доставка и оплата</a></li>
-                    <li><a href="#">Возврат и обмен</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Каталог</h3>
-                <ul class="footer-links">
-                    <li><a href="/products/1">Краски</a></li>
-                    <li><a href="/products/2">Маркеры</a></li>
-                    <li><a href="/products/3">Трафареты</a></li>
-                    <li><a href="/products/4">Аксессуары</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Помощь</h3>
-                <ul class="footer-links">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Как сделать заказ</a></li>
-                    <li><a href="#">Статус заказа</a></li>
-                    <li><a href="#">Политика конфиденциальности</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Контакты</h3>
-                <ul class="footer-links">
-                    <li>Email: info@streetart.supplies</li>
-                    <li>Телефон: +7 (999) 123-45-67</li>
-                    <li>Адрес: г. Москва, ул. Артовая, 1</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
-        </div>
-    </footer>
+    {{template "footer" .}}
 
     <!-- Modal -->
     <div id="depositModal" class="modal">

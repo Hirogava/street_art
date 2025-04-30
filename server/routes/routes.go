@@ -25,11 +25,11 @@ func Routes(r *mux.Router, manager *db.Manager) {
 		Роуты для авторизации
 	*/
 	r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Login(w, r)
+		handlers.Login(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	r.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
-		handlers.Register(w, r)
+		handlers.Register(w, r, manager)
 	}).Methods(http.MethodGet)
 
 	/*

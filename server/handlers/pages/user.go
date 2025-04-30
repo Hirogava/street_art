@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -11,18 +12,38 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Register(w http.ResponseWriter, r *http.Request) {
+func Register(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("static/html/register.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, categories)
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("static/html/login.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, categories)
 }
 
 func Profile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	user := cookies.GetUserCookie(r, w)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	balance, err := manager.GetUserBalance(user.Id)
 	if err != nil {
@@ -33,8 +54,12 @@ func Profile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 
 	user.Balance = balance
 
-	tmpl := template.Must(template.ParseFiles("static/html/profile.html"))
-	tmpl.Execute(w, user)
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/profile.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"User": user, "Categories": categories})
 }
 
 func EditProfile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -49,8 +74,19 @@ func EditProfile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 
 	user.Balance = balance
 
-	tmpl := template.Must(template.ParseFiles("static/html/edit_profile.html"))
-	tmpl.Execute(w, user)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/edit_profile.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"User": user, "Categories": categories})
 }
 
 func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -59,7 +95,8 @@ func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	orders, err := manager.GetAllOrders(userId)
 	if err != nil {
 		if err.Error() == "no orders" {
-			tmpl := template.Must(template.ParseFiles("static/html/orders.html"))
+			tmpl := template.Must(template.ParseFiles("static/html/orders.html",
+				"static/html/templates/footer.html"))
 			tmpl.Execute(w, nil)
 			return
 		}
@@ -68,8 +105,19 @@ func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/orders.html"))
-	tmpl.Execute(w, orders)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/orders.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Orders": orders, "Categories": categories})
 }
 
 func OrderDetails(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -88,8 +136,19 @@ func OrderDetails(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/order.html"))
-	tmpl.Execute(w, products)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/order.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories})
 }
 
 func Cart(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -107,6 +166,17 @@ func Cart(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/cart.html"))
-	tmpl.Execute(w, products)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/cart.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories})
 }

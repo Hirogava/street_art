@@ -1,0 +1,43 @@
+{{define "footer"}}
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-section">
+            <h3>О компании</h3>
+            <ul class="footer-links">
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Контакты</a></li>
+                <li><a href="#">Доставка и оплата</a></li>
+                <li><a href="#">Возврат и обмен</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Каталог</h3>
+            <ul class="footer-links">
+                {{range .Categories}}
+                    <li><a href="/products/{{.Id}}">{{.Name}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Помощь</h3>
+            <ul class="footer-links">
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Как сделать заказ</a></li>
+                <li><a href="#">Статус заказа</a></li>
+                <li><a href="#">Политика конфиденциальности</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Контакты</h3>
+            <ul class="footer-links">
+                <li>Email: info@streetart.supplies</li>
+                <li>Телефон: +7 (999) 123-45-67</li>
+                <li>Адрес: г. Москва, ул. Артовая, 1</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
+    </div>
+</footer>
+{{end}}

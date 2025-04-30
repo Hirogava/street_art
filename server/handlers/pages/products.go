@@ -19,8 +19,19 @@ func Products(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/products.html"))
-	tmpl.Execute(w, products)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/products.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Products" : products, "Categories" : categories})
 }
 
 func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -43,8 +54,19 @@ func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/product.html"))
-	tmpl.Execute(w, product)
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/product.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w,  map[string]interface{}{"Product" : product, "Categories" : categories})
 }
 
 func ProductsByCategory(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -67,14 +89,27 @@ func ProductsByCategory(w http.ResponseWriter, r *http.Request, manager *db.Mana
 		return
 	}
 
+	categories, err := manager.GetAllCategories()
+	if err != nil {
+		log.Println("Ошибка получения категорий: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	data := struct {
 		Products []models.Product
 		Category string
+		Categories []models.Category
 	}{
 		Products: products,
 		Category: products[0].Category,
+		Categories: categories,
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/productsbycat.html"))
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/productsbycat.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
 	tmpl.Execute(w, data)
 }

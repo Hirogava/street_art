@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"street-art/db"
+	"street-art/services/cookies"
 )
 
 func Landing(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -22,6 +23,13 @@ func Landing(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/index.html",
 		"static/html/templates/header.html",
@@ -30,5 +38,6 @@ func Landing(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	tmpl.Execute(w, map[string]interface{}{
 		"Categories": categories,
 		"Products":   topProducts,
+		"User":       user,
 	})
 }

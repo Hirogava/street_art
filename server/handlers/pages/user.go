@@ -19,8 +19,12 @@ func Register(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/register.html"))
-	tmpl.Execute(w, categories)
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/register.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Categories": categories, "User" : nil})
 }
 
 func Login(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -31,12 +35,22 @@ func Login(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("static/html/login.html"))
-	tmpl.Execute(w, categories)
+	tmpl := template.Must(template.ParseFiles(
+		"static/html/login.html",
+		"static/html/templates/header.html",
+		"static/html/templates/footer.html",
+	))
+	tmpl.Execute(w, map[string]interface{}{"Categories": categories, "User" : nil})
 }
 
 func Profile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
-	user := cookies.GetUserCookie(r, w)
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	categories, err := manager.GetAllCategories()
 	if err != nil {
 		log.Println("Ошибка получения категорий: ", err)
@@ -62,7 +76,12 @@ func Profile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 }
 
 func EditProfile(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
-	user := cookies.GetUserCookie(r, w)
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	balance, err := manager.GetUserBalance(user.Id)
 	if err != nil {
@@ -111,12 +130,19 @@ func Orders(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/orders.html",
 		"static/html/templates/header.html",
 		"static/html/templates/footer.html",
 	))
-	tmpl.Execute(w, map[string]interface{}{"Orders": orders, "Categories": categories})
+	tmpl.Execute(w, map[string]interface{}{"Orders": orders, "Categories": categories, "User": user})
 }
 
 func OrderDetails(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -142,12 +168,19 @@ func OrderDetails(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/order.html",
 		"static/html/templates/header.html",
 		"static/html/templates/footer.html",
 	))
-	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories})
+	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories, "User": user})
 }
 
 func Cart(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -172,10 +205,17 @@ func Cart(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/cart.html",
 		"static/html/templates/header.html",
 		"static/html/templates/footer.html",
 	))
-	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories})
+	tmpl.Execute(w, map[string]interface{}{"Products": products, "Categories": categories, "User": user})
 }

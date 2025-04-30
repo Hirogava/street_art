@@ -20,15 +20,20 @@
             <a href="#" class="nav-link">Контакты</a>
         </nav>
         <div class="user-menu">
-            <a href="/profile/cart" class="nav-link">Корзина</a>
-            <div class="dropdown">
-                <div class="user-avatar">П</div>
-                <div class="dropdown-content">
-                    <a href="/profile" class="dropdown-item">Профиль</a>
-                    <a href="/profile/orders" class="dropdown-item">Заказы</a>
-                    <a href="/api/logout" class="dropdown-item">Выйти</a>
+            {{if .User}}
+                <a href="/profile/cart" class="nav-link">Корзина</a>
+                <div class="dropdown">
+                    <div class="user-avatar">S</div>
+                    <div class="dropdown-content">
+                        <a href="/profile" class="dropdown-item">Профиль</a>
+                        <a href="/profile/orders" class="dropdown-item">Заказы</a>
+                        <a href="/api/logout" class="dropdown-item">Выйти</a>
+                    </div>
                 </div>
-            </div>
+            {{else}}
+                <a href="/login" class="nav-link">Войти</a>
+                <a href="/register" class="nav-link register-link">Регистрация</a>
+            {{end}}
         </div>
     </div>
 </header>

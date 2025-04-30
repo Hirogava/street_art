@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"street-art/db"
 	"street-art/models"
+	"street-art/services/cookies"
 
 	"github.com/gorilla/mux"
 )
@@ -26,12 +27,19 @@ func Products(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/products.html",
 		"static/html/templates/header.html",
 		"static/html/templates/footer.html",
 	))
-	tmpl.Execute(w, map[string]interface{}{"Products" : products, "Categories" : categories})
+	tmpl.Execute(w, map[string]interface{}{"Products" : products, "Categories" : categories, "User": user})
 }
 
 func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -61,12 +69,19 @@ func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles(
 		"static/html/product.html",
 		"static/html/templates/header.html",
 		"static/html/templates/footer.html",
 	))
-	tmpl.Execute(w,  map[string]interface{}{"Product" : product, "Categories" : categories})
+	tmpl.Execute(w,  map[string]interface{}{"Product" : product, "Categories" : categories, "User" : user})
 }
 
 func ProductsByCategory(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -96,14 +111,23 @@ func ProductsByCategory(w http.ResponseWriter, r *http.Request, manager *db.Mana
 		return
 	}
 
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	data := struct {
 		Products []models.Product
 		Category string
 		Categories []models.Category
+		User *models.User
 	}{
 		Products: products,
 		Category: products[0].Category,
 		Categories: categories,
+		User: user,
 	}
 
 	tmpl := template.Must(template.ParseFiles(

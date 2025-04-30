@@ -70,20 +70,25 @@ func Logout(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
 }
 
 func EditProfile(manager *db.Manager, w http.ResponseWriter, r *http.Request) {
-	user := cookies.GetUserCookie(r, w)
+	user, err := cookies.GetUserCookie(r, w)
+	if err != nil {
+		log.Println("Ошибка получения пользователя из cookie" + err.Error())
+		http.Error(w, `{"message": "Ошибка получения пользователя из cookie"}`, http.StatusInternalServerError)
+		return
+	}
 	
 	user.Name = r.FormValue("name")
 	user.Phone = r.FormValue("phone")
 	user.Address = r.FormValue("address")
 
-	err := manager.UpdateUserInfo(&user)
+	err = manager.UpdateUserInfo(user)
 	if err != nil {
 		log.Println("Ошибка обновления данных пользователя" + err.Error())
 		http.Error(w, `{"message": "Ошибка обновления данных пользователя"}`, http.StatusInternalServerError)
 		return
 	}
 
-	err = cookies.EditUserCookie(r, w, user)
+	err = cookies.EditUserCookie(r, w, *user)
 	if err != nil {	
 		log.Println("Ошибка сохранения cookie" + err.Error())
 		http.Error(w, `{"message": "Ошибка сохранения cookie"}`, http.StatusInternalServerError)

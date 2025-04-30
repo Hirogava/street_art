@@ -12,28 +12,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container header-container">
-            <div class="logo">
-                <a href="/">
-                    <img src="/static/img/logo2.png" alt="Street Art Supplies">
-                </a>
-            </div>
-            <nav class="nav">
-                <a href="/products" class="nav-link">Каталог</a>
-                <div class="dropdown">
-                    <a href="#" class="nav-link">Категории</a>
-                    <div class="dropdown-content">
-                        {{range .}}
-                        <a href="/products/{{.Id}}" class="dropdown-item">{{.Name}}</a>
-                        {{end}}
-                    </div>
-                </div>
-                <a href="#" class="nav-link">О нас</a>
-                <a href="#" class="nav-link">Контакты</a>
-            </nav>
-        </div>
-    </header>
+    {{template "header" .}}
 
     <!-- Main Content -->
     <main class="main-content">

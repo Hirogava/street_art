@@ -17,7 +17,33 @@ func SaveProductPhoto(image multipart.File, imageHeader *multipart.FileHeader, c
 		return "", err
 	}
 
-	return productPhotoPath, nil
+	return "/" + productPhotoPath, nil
+}
+
+func UpdateProductPhoto(image multipart.File, imageHeader *multipart.FileHeader, categoryId int, oldImagePath string) (string, error) {
+	if err := DeleteProductPhoto(oldImagePath); err != nil {
+		log.Println("Ошибка удаления файла: ", err)
+		return "", err
+	}
+
+	productPhotoPath := "static/prod_img/category/" + strconv.Itoa(categoryId) + "/" + imageHeader.Filename
+
+	err := saveFile(productPhotoPath, image)
+	if err != nil {
+		log.Println("Ошибка сохранения файла: ", err)
+		return "", err
+	}
+
+	return "/" + productPhotoPath, nil
+}
+
+func DeleteProductPhoto(imagePath string) error {
+	if err := os.Remove(imagePath); err != nil {
+		log.Println("Ошибка удаления файла: ", err)
+		return err
+	}
+
+	return nil
 }
 
 func saveFile(path string, file multipart.File) (error) {
@@ -45,5 +71,5 @@ func SaveCategoryPhoto(image multipart.File, imageHeader *multipart.FileHeader) 
 		return "", err
 	}
 
-	return categoryPhotoPath, nil
+	return "/" + categoryPhotoPath, nil
 }

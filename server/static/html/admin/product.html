@@ -1,11 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Продукт — Админка</title>
+  <style>
+    :root {
+      --color-jet-black: #1A1A1A;
+      --color-neon-red: #FF3B3F;
+      --color-electric-blue: #00AEEF;
+      --color-concrete-grey: #CCCCCC;
+      --color-spray-white: #F9F9F9;
+      --border-radius: 10px;
+    }
+
+    body {
+      background-color: var(--color-jet-black);
+      color: var(--color-spray-white);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: var(--color-neon-red);
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--color-electric-blue);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .product-card {
+      background-color: var(--color-spray-white);
+      color: var(--color-jet-black);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      margin-bottom: 25px;
+    }
+
+    .product-img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .product-info p {
+      margin: 10px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-right: 10px;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-edit {
+      background-color: var(--color-electric-blue);
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: var(--color-neon-red);
+      color: white;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup {
+      background-color: white;
+      color: black;
+      padding: 30px 25px;
+      border-radius: var(--border-radius);
+      width: 400px;
+      position: relative;
+    }
+
+    .popup h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .popup input, .popup textarea, .popup select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--color-concrete-grey);
+      font-size: 14px;
+    }
+
+    .popup input, .popup textarea{
+        width: 95.5%;
+    }
+
+    .popup-preview {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .popup button {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--color-neon-red);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--color-electric-blue);
+      color: white;
+      padding: 15px 25px;
+      border-radius: var(--border-radius);
+      display: none;
+      z-index: 1001;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-    
+
+<header>Детали продукта</header>
+
+<div class="container">
+  <a href="/admin/products" class="back-link">← Назад к продуктам</a>
+
+  <div class="product-card">
+    <img src="{{.ImageUrl}}" class="product-img" id="productImg" alt="Product Image">
+    <div class="product-info">
+      <p><strong>Название:</strong> {{.Name}}</p>
+      <p><strong>Описание:</strong> {{.Description}}</p>
+      <p><strong>Категория:</strong> {{.Category}}</p>
+      <p><strong>Бренд:</strong> {{.Brand}}</p>
+      <p><strong>Цена:</strong> {{.Price}} ₽</p>
+      <p><strong>В наличии:</strong> {{.Stock}} шт.</p>
+    </div>
+
+    <button class="btn btn-edit" onclick="openEditPopup()">Изменить</button>
+    <button class="btn btn-delete" onclick="deleteProduct()">Удалить</button>
+  </div>
+</div>
+
+<div class="popup-overlay" id="editPopup" onclick="closePopupOnOutside(event)">
+  <div class="popup">
+    <span class="close-btn" onclick="closeEditPopup()">×</span>
+    <h3>Редактировать продукт</h3>
+    <form id="editForm">
+      <input type="text" name="name" placeholder="Название" value="{{.Name}}">
+      <textarea name="description" placeholder="Описание">{{.Description}}</textarea>
+      <input type="number" step="0.01" name="price" placeholder="Цена" value="{{.Price}}" required>
+      <input type="number" name="stock" placeholder="Количество" value="{{.Stock}}" required>
+      <select name="category_id" id="categorySelect"></select>
+      <select name="brand_id" id="brandSelect"></select>
+      <input type="file" name="image" id="imageInput">
+      <img src="{{.ImageUrl}}" id="previewImage" class="popup-preview">
+      <button type="submit">Сохранить</button>
+    </form>
+  </div>
+</div>
+
+<div class="notification" id="notification">Успешно обновлено ✅</div>
+
+<script>
+  const productId = {{.Id}};
+  const notification = document.getElementById('notification');
+  const editPopup = document.getElementById('editPopup');
+
+  function showNotification(msg = "Успешно обновлено ✅") {
+    notification.textContent = msg;
+    notification.style.display = 'block';
+    setTimeout(() => notification.style.display = 'none', 2000);
+  }
+
+  function deleteProduct() {
+    if (!confirm("Удалить этот продукт?")) return;
+    fetch(`/api/admin/product/${productId}`, { method: 'DELETE' })
+      .then(res => {
+        if (res.ok) {
+          showNotification("Удалено");
+          setTimeout(() => window.location.href = '/admin/products', 1500);
+        } else {
+          alert('Ошибка удаления');
+        }
+      });
+  }
+
+  function openEditPopup() {
+    editPopup.style.display = 'flex';
+    fetch('/api/admin/category')
+      .then(res => res.json())
+      .then(data => {
+        const catSel = document.getElementById('categorySelect');
+        const brandSel = document.getElementById('brandSelect');
+        catSel.innerHTML = '';
+        brandSel.innerHTML = '';
+
+        data.categories.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.id;
+          opt.textContent = cat.name;
+          if (cat.name === '{{.Category}}') opt.selected = true;
+          catSel.appendChild(opt);
+        });
+
+        data.brands.forEach(brand => {
+          const opt = document.createElement('option');
+          opt.value = brand.id;
+          opt.textContent = brand.name;
+          if (brand.name === '{{.Brand}}') opt.selected = true;
+          brandSel.appendChild(opt);
+        });
+      });
+  }
+
+  function closeEditPopup() {
+    editPopup.style.display = 'none';
+  }
+
+  function closePopupOnOutside(e) {
+    if (e.target === editPopup) {
+      closeEditPopup();
+    }
+  }
+
+  document.getElementById('editForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const image_url = document.getElementById('productImg').src;
+    formData.append('image_url', image_url);
+
+    const image = document.getElementById('imageInput').files[0];
+    if (!image) formData.delete('image');
+
+    try {
+      const response = await fetch(`/api/admin/product/${productId}`, {
+        method: 'PUT',
+        body: formData
+      });
+
+      const result = await response.json();
+      if (result.message === 'Success') {
+        showNotification();
+        closeEditPopup();
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        alert('Ошибка сохранения');
+      }
+    } catch (err) {
+      console.error('Ошибка:', err);
+    }
+  });
+
+  document.getElementById('imageInput').addEventListener('change', function() {
+    const preview = document.getElementById('previewImage');
+    const file = this.files[0];
+    if (file) preview.src = URL.createObjectURL(file);
+  });
+</script>
+
 </body>
 </html>

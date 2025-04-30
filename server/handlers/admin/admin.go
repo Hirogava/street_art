@@ -3,8 +3,11 @@ package admin
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"street-art/db"
 	"text/template"
+
+	"github.com/gorilla/mux"
 )
 
 func Login(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -80,8 +83,23 @@ func Categories(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 }
 
 func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("Ошибка получения параметра id: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	product, err := manager.GetProductById(id)
+	if err != nil {
+		log.Println("Ошибка получения продукта:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("static/html/admin/product.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, product)
 }
 
 func Order(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
@@ -91,10 +109,5 @@ func Order(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 
 func Category(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	tmpl := template.Must(template.ParseFiles("static/html/admin/category.html"))
-	tmpl.Execute(w, nil)
-}
-
-func User(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
-	tmpl := template.Must(template.ParseFiles("static/html/admin/user.html"))
 	tmpl.Execute(w, nil)
 }

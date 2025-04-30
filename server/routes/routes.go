@@ -95,10 +95,6 @@ func AdminRoutes(r *mux.Router, manager *db.Manager) {
 		panel.Users(w, r, manager)
 	})
 
-	admin.HandleFunc("/users/{id}", func(w http.ResponseWriter, r *http.Request) {
-		panel.User(w, r, manager)
-	})
-
 	admin.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
 		panel.Products(w, r, manager)
 	})
@@ -109,10 +105,6 @@ func AdminRoutes(r *mux.Router, manager *db.Manager) {
 
 	admin.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
 		panel.Orders(w, r, manager)
-	})
-
-	admin.HandleFunc("/orders/{id}", func(w http.ResponseWriter, r *http.Request) {
-		panel.Order(w, r, manager)
 	})
 
 	admin.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {

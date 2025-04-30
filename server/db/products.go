@@ -125,3 +125,25 @@ func (manager *Manager) AddProduct(product *models.Product) error {
 
 	return nil
 }
+
+func (manager *Manager) DeleteProduct(id int) (string, error) {
+	query := `DELETE FROM products WHERE id = $1 RETURNING image_url`
+
+	var imageUrl string
+	err := manager.Conn.QueryRow(query, id).Scan(&imageUrl)
+	if err != nil {
+		return "", err
+	}
+
+	return imageUrl, nil
+}
+
+func (manager *Manager) UpdateProduct(product *models.Product) error {
+	query := `UPDATE products SET name = $1, description = $2, price = $3, stock = $4, image_url = $5, brand_id = $6, category_id = $7 WHERE id = $8`
+	_, err := manager.Conn.Exec(query, product.Name, product.Description, product.Price, product.Stock, product.ImageUrl, product.BrandId, product.CategoryId, product.Id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

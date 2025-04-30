@@ -95,4 +95,12 @@ func AdminApiRoutes(r *mux.Router, manager *db.Manager) {
 	adminRout.HandleFunc("/product", func(w http.ResponseWriter, r *http.Request) {
 		api.AddProduct(w, r, manager)
 	}).Methods(http.MethodPost)
+
+	adminRout.HandleFunc("/product/{id}", func(w http.ResponseWriter, r *http.Request) {
+		api.DeleteProduct(w, r, manager)
+	}).Methods(http.MethodDelete)
+
+	adminRout.HandleFunc("/product/{id}", func(w http.ResponseWriter, r *http.Request) {
+		api.UpdateProduct(w, r, manager)
+	}).Methods(http.MethodPut)
 }

@@ -108,20 +108,18 @@
     <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
 
     {{range .}}
-    <a href="/admin/users/{{.Id}}" class="user-link">
-        <div class="user-card">
-            <div class="user-header">
-                <h3>{{.Name}}</h3>
-                <span class="badge">ID: {{.Id}}</span>
-            </div>
-            <div class="user-info">
-                <p><strong>Email:</strong> {{.Email}}</p>
-                <p><strong>Телефон:</strong> {{.Phone}}</p>
-                <p><strong>Адрес:</strong> {{.Address}}</p>
-                <p><strong>Баланс:</strong> {{printf "%.2f" .Balance}} ₽</p>
-            </div>
+    <div class="user-card">
+        <div class="user-header">
+            <h3>{{.Name}}</h3>
+            <span class="badge">ID: {{.Id}}</span>
         </div>
-    </a>
+        <div class="user-info">
+            <p><strong>Email:</strong> {{.Email}}</p>
+            <p><strong>Телефон:</strong> {{.Phone}}</p>
+            <p><strong>Адрес:</strong> {{.Address}}</p>
+            <p><strong>Баланс:</strong> {{printf "%.2f" .Balance}} ₽</p>
+        </div>
+    </div>
     {{end}}
 
     {{if not .}}

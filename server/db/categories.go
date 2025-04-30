@@ -99,3 +99,39 @@ func (manager *Manager) AddCategory(category *models.Category) error {
 
 	return nil
 }
+
+func (manager *Manager) GetCategoryById(id int) (models.Category, error) {
+	var category models.Category
+
+	query := `SELECT * FROM categories WHERE id = $1`
+	err := manager.Conn.QueryRow(query, id).Scan(&category.Id, &category.Name, &category.Description, &category.ImageUrl)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.Category{}, fmt.Errorf("no value")
+     	}
+	 	return models.Category{}, err
+	}
+
+	return category, nil
+}
+
+func (manager *Manager) DeleteCategoryById(id int) (string, error) {
+	var imageUrl string
+	query := `DELETE FROM categories WHERE id = $1 RETURNING image_url`
+	err := manager.Conn.QueryRow(query, id).Scan(&imageUrl)
+	if err != nil {
+		return "", err
+	}
+
+	return imageUrl, nil
+}
+
+func (manager *Manager) UpdateCategory(category *models.Category) error {
+	query := `UPDATE categories SET name = $1, description = $2, image_url = $3 WHERE id = $4`
+	_, err := manager.Conn.Exec(query, category.Name, category.Description, category.ImageUrl, category.Id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

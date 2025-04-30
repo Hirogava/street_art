@@ -102,12 +102,22 @@ func Product(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
 	tmpl.Execute(w, product)
 }
 
-func Order(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
-	tmpl := template.Must(template.ParseFiles("static/html/admin/order.html"))
-	tmpl.Execute(w, nil)
-}
-
 func Category(w http.ResponseWriter, r *http.Request, manager *db.Manager) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("Ошибка получения параметра id: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	category, err := manager.GetCategoryById(id)
+	if err != nil {
+		log.Println("Ошибка получения категории:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("static/html/admin/category.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, category)
 }

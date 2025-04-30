@@ -21,7 +21,7 @@ func SaveProductPhoto(image multipart.File, imageHeader *multipart.FileHeader, c
 }
 
 func UpdateProductPhoto(image multipart.File, imageHeader *multipart.FileHeader, categoryId int, oldImagePath string) (string, error) {
-	if err := DeleteProductPhoto(oldImagePath); err != nil {
+	if err := DeletePhoto(oldImagePath); err != nil {
 		log.Println("Ошибка удаления файла: ", err)
 		return "", err
 	}
@@ -37,8 +37,25 @@ func UpdateProductPhoto(image multipart.File, imageHeader *multipart.FileHeader,
 	return "/" + productPhotoPath, nil
 }
 
-func DeleteProductPhoto(imagePath string) error {
-	if err := os.Remove(imagePath); err != nil {
+func UpdateCategoryPhoto(image multipart.File, imageHeader *multipart.FileHeader, oldImagePath string) (string, error) {
+	if err := DeletePhoto(oldImagePath); err != nil {
+		log.Println("Ошибка удаления файла: ", err)
+		return "", err
+	}
+
+	categoryPhotoPath := "static/img/category_img/" + imageHeader.Filename
+
+	err := saveFile(categoryPhotoPath, image)
+ 	if err != nil {
+		log.Println("Ошибка сохранения файла: ", err)
+		return "", err
+	}
+
+	return "/" + categoryPhotoPath, nil
+}
+
+func DeletePhoto(imagePath string) error {
+	if err := os.Remove(imagePath[1:]); err != nil {
 		log.Println("Ошибка удаления файла: ", err)
 		return err
 	}
@@ -63,7 +80,7 @@ func saveFile(path string, file multipart.File) (error) {
 }
 
 func SaveCategoryPhoto(image multipart.File, imageHeader *multipart.FileHeader) (string, error) {
-	categoryPhotoPath := "static/category_img" + "/" + imageHeader.Filename
+	categoryPhotoPath := "static/img/category_img" + "/" + imageHeader.Filename
 
 	err := saveFile(categoryPhotoPath, image)
 	if err != nil {

@@ -95,7 +95,7 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request, manager *db.Manager) 
 		return
 	}
 
-	err = filemanager.DeleteProductPhoto(imageUrl)
+	err = filemanager.DeletePhoto(imageUrl)
 	if err != nil {
 		log.Println("Ошибка удаления картинки продукта: " + err.Error())
 		w.Header().Set("Content-Type", "application/json")
@@ -165,7 +165,8 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request, manager *db.Manager) 
 		image, imageHeader, err := r.FormFile("image")
 		if err != nil {
 			log.Println("Ошибка чтения изображения: " + err.Error())
-			http.Error(w, `{"message": "Ошибка чтения изображения"}`, http.StatusBadRequest)
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]string{"message": "Error"})
 			return
 		}
 		defer image.Close()
@@ -173,7 +174,8 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request, manager *db.Manager) 
 		newImageUrl, err := filemanager.UpdateProductPhoto(image, imageHeader, product.CategoryId, product.ImageUrl)
 		if err != nil {
 			log.Println("Ошибка обновления изображения: " + err.Error())
-			http.Error(w, `{"message": "Ошибка обновления изображения"}`, http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]string{"message": "Error"})
 			return
 		}
 		product.ImageUrl = newImageUrl

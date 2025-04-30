@@ -47,6 +47,20 @@
             text-decoration: underline;
         }
 
+        .add-btn {
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .add-btn:hover {
+            background-color: #0099cc;
+        }
+
         .category-card {
             display: flex;
             gap: 20px;
@@ -88,6 +102,65 @@
         .category-link {
             text-decoration: none;
         }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            color: black;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 400px;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .popup input, .popup textarea {
+            width: 96%;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--color-concrete-grey);
+        }
+
+        .popup button {
+            background-color: var(--color-neon-red);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .popup-close {
+            background-color: var(--color-concrete-grey);
+            margin-left: 10px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--color-electric-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            display: none;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +169,8 @@
 
 <div class="container">
     <a href="/admin/dashboard" class="back-link">← Назад в панель</a>
+
+    <button class="add-btn" onclick="openPopup()">+ Добавить категорию</button>
 
     {{if .}}
     {{range .}}
@@ -112,8 +187,66 @@
     {{else}}
     <p>Категории не найдены.</p>
     {{end}}
-
 </div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+        <h2>Новая категория</h2>
+        <form id="categoryForm">
+            <input type="text" name="name" placeholder="Название" required>
+            <textarea name="description" placeholder="Описание" required></textarea>
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Добавить</button>
+            <button type="button" class="popup-close" onclick="closePopup()">Отмена</button>
+        </form>
+    </div>
+</div>
+
+<div class="notification" id="notification">Категория успешно добавлена ✅</div>
+
+<script>
+    const popupOverlay = document.getElementById('popupOverlay');
+    const form = document.getElementById('categoryForm');
+    const notification = document.getElementById('notification');
+
+    function openPopup() {
+        popupOverlay.style.display = 'flex';
+    }
+
+    function closePopup() {
+        popupOverlay.style.display = 'none';
+        form.reset();
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/api/admin/category', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'ok') {
+                notification.style.display = 'block';
+                closePopup();
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    location.reload();
+                }, 2000);
+            } else {
+                alert(result.message || 'Ошибка при добавлении категории');
+            }
+        } catch (err) {
+            console.error('Ошибка:', err);
+            alert('Ошибка при отправке запроса');
+        }
+    });
+</script>
 
 </body>
 </html>

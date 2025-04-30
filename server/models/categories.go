@@ -6,3 +6,8 @@ type Category struct {
 	Description string 		`json:"description"`
 	ImageUrl string 		`json:"image_url"`
 }
+
+type CategoryMini struct {
+	Id   int  				`json:"id"`
+	Name string 			`json:"name"`
+}

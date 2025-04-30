@@ -1,31 +1,59 @@
 package db
 
 import (
+	"database/sql"
+	"fmt"
 	"street-art/models"
 )
 
-	func (manager *Manager) GetAllCategories() ([]models.Category, error){
-		rows, err := manager.Conn.Query("SELECT * FROM categories")
+func (manager *Manager) GetAllCategories() ([]models.Category, error){
+	rows, err := manager.Conn.Query("SELECT * FROM categories")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var categories []models.Category
+
+	for rows.Next(){
+		var category models.Category
+		
+		err := rows.Scan(&category.Id, &category.Name, &category.Description, &category.ImageUrl)
 		if err != nil {
 			return nil, err
 		}
-		defer rows.Close()
 
-		var categories []models.Category
+		categories = append(categories, category)
+	}
 
-		for rows.Next(){
-			var category models.Category
-			
-			err := rows.Scan(&category.Id, &category.Name, &category.Description, &category.ImageUrl)
-			if err != nil {
-				return nil, err
-			}
+	return categories, nil
+}
 
-			categories = append(categories, category)
+func (manager *Manager) GetMiniCategories() ([]models.CategoryMini, error){
+	rows, err := manager.Conn.Query("SELECT id, name FROM categories")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("no value")
+		}
+		return nil, err
+	}
+	defer rows.Close()
+
+	var categories []models.CategoryMini
+
+	for rows.Next(){
+		var category models.CategoryMini
+		
+		err := rows.Scan(&category.Id, &category.Name)
+		if err != nil {
+			return nil, err
 		}
 
-		return categories, nil
+		categories = append(categories, category)
 	}
+
+	return categories, nil
+}
 
 func (manager *Manager) GetAllProductsByCategoryId(id int) ([]models.Product, error){
 	var products []models.Product

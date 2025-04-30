@@ -78,9 +78,13 @@ func AdminApiRoutes(r *mux.Router, manager *db.Manager) {
 
 	adminRoutWithoutAuth.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		api.AdminLogin(w, r, manager)
-	})
+	}).Methods(http.MethodPost)
 
 	adminRout.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		api.AdminLogout(w, r, manager)
 	})
+
+	adminRout.HandleFunc("/category", func(w http.ResponseWriter, r *http.Request) {
+		api.GetCategoriesForPanel(w, r, manager)
+	}).Methods(http.MethodGet)
 }

@@ -10,8 +10,8 @@ func (manager *Manager) AdminLogin(email string, password string) (models.Admin,
 	var user models.Admin
 	var hashedPassword string
 
-	query := `SELECT id, email FROM admin_panel WHERE email = $1;`
-	err := manager.Conn.QueryRow(query, email).Scan(&user.Id, &user.Email)
+	query := `SELECT id, email, password_hash FROM admin_panel WHERE email = $1;`
+	err := manager.Conn.QueryRow(query, email).Scan(&user.Id, &user.Email, &hashedPassword)
 	if err != nil {
 		return models.Admin{}, err
 	}

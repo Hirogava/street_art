@@ -137,7 +137,7 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'Вход...';
 
-                const response = await fetch('/api/login', {
+                const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     body: formData
                 });

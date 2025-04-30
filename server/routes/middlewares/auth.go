@@ -13,7 +13,7 @@ func AuthRequired(userType string) mux.MiddlewareFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			store := cookies.NewCookieManager(r)
 			if store.Session.Values["role"].(string) != "user" {
-				log.Println("Неавторизованный пользователь:" + store.Session.Values["role"].(string))
+				log.Println("Неавторизованный пользователь: " + store.Session.Values["role"].(string))
 				http.Redirect(w, r, "/register", http.StatusSeeOther)
 			}
 			next.ServeHTTP(w, r)
@@ -26,7 +26,7 @@ func AdminRequired(userType string) mux.MiddlewareFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			store := cookies.NewCookieManager(r)
 			if store.Session.Values["role"].(string) != "admin" {
-				log.Println("Неавторизованный пользователь:" + store.Session.Values["role"].(string))
+				log.Println("Неавторизованный пользователь: " + store.Session.Values["role"].(string))
 				http.Error(w, "Unauthorized", http.StatusUnauthorized)
 				return
 			}

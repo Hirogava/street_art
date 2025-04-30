@@ -89,3 +89,13 @@ func (manager *Manager) GetAllProductsByCategoryId(id int) ([]models.Product, er
 
 	return products, nil
 }
+
+func (manager *Manager) AddCategory(category *models.Category) error {
+	query := `INSERT INTO categories(name, description, image_url) VALUES($1, $2, $3)`
+	_, err := manager.Conn.Exec(query, category.Name, category.Description, category.ImageUrl)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

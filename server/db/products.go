@@ -114,3 +114,14 @@ func (Manager *Manager) GetTopProducts() ([]models.Product, error) {
 
 	return products, nil
 }
+
+func (manager *Manager) AddProduct(product *models.Product) error {
+	query := `INSERT INTO products (name, description, price, stock, image_url, brand_id, category_id)
+			VALUES ($1, $2, $3, $4, $5, $6, $7)`
+	_, err := manager.Conn.Exec(query, product.Name, product.Description, product.Price, product.Stock, product.ImageUrl, product.BrandId, product.CategoryId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

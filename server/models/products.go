@@ -6,9 +6,11 @@ type Product struct {
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
 	Category    string  `json:"category"`
+	CategoryId  int
 	Stock       int     `json:"stock"`
 	ImageUrl    string  `json:"image_url"`
 	Brand       string  `json:"brand"`
+	BrandId     int
 }
 
 type ProductToOrder struct {

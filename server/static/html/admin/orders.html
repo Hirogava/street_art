@@ -94,10 +94,6 @@
         .back-link:hover {
             text-decoration: underline;
         }
-
-        .order-link {
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
@@ -109,7 +105,6 @@
 
     {{if .Orders}}
     {{range .Orders}}
-    <a href="/admin/orders/{{.OrderId}}" class="order-link">
         <div class="order-card">
             <div class="order-header">
                 <h3>Заказ #{{.OrderId}}</h3>
@@ -129,7 +124,6 @@
                 </ul>
             </div>
         </div>
-    </a>
     {{end}}
     {{else}}
     <p>Заказы не найдены.</p>

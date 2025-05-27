@@ -9,6 +9,10 @@
     border-bottom: 1px solid var(--color-concrete-grey);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.8)),
                 url('/static/img/background.png') center/cover;
@@ -125,6 +129,13 @@ body {
     gap: 40px;
 }
 
+.footer-sectionn h3 {
+    color: var(--color-neon-red);
+    margin-bottom: 20px;
+    margin-left: 50px;
+    font-size: 1.2rem;
+}
+
 .footer-section h3 {
     color: var(--color-neon-red);
     margin-bottom: 20px;
@@ -133,6 +144,7 @@ body {
 
 .footer-links {
     list-style: none;
+    margin-left: 50px;
 }
 
 .footer-links li {
@@ -153,6 +165,13 @@ body {
     border-top: 1px solid var(--color-concrete-grey);
     text-align: center;
     color: var(--color-concrete-grey);
+}
+
+.footer-section p {
+    color: var(--color-concrete-grey);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
 }
 
 .main-content {

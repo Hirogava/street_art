@@ -1,16 +1,15 @@
 {{define "footer"}}
-<footer class="footer">
+<footer class="footer" id="about">
     <div class="container footer-container">
         <div class="footer-section">
-            <h3>О компании</h3>
-            <ul class="footer-links">
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Контакты</a></li>
-                <li><a href="#">Доставка и оплата</a></li>
-                <li><a href="#">Возврат и обмен</a></li>
-            </ul>
+            <h3 class="hp">О компании</h3>
+            <p>
+            Street Art Supplies — это магазин, созданный для настоящих ценителей уличного искусства. 
+            Мы предлагаем качественные материалы для граффити, росписи стен и других форм самовыражения. 
+            Наша миссия — поддерживать творцов и вдохновлять на создание уникальных арт-объектов.
+            </p>
         </div>
-        <div class="footer-section">
+        <div class="footer-sectionn">
             <h3>Каталог</h3>
             <ul class="footer-links">
                 {{range .Categories}}
@@ -18,7 +17,7 @@
                 {{end}}
             </ul>
         </div>
-        <div class="footer-section">
+        <div class="footer-sectionn">
             <h3>Помощь</h3>
             <ul class="footer-links">
                 <li><a href="#">FAQ</a></li>
@@ -27,7 +26,7 @@
                 <li><a href="#">Политика конфиденциальности</a></li>
             </ul>
         </div>
-        <div class="footer-section">
+        <div class="footer-sectionn">
             <h3>Контакты</h3>
             <ul class="footer-links">
                 <li>Email: info@streetart.supplies</li>

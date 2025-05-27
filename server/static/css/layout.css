@@ -9,6 +9,14 @@
     border-bottom: 1px solid var(--color-concrete-grey);
 }
 
+body {
+    background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.8)),
+                url('/static/img/background.png') center/cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .header-container {
     height: 100%;
     display: flex;

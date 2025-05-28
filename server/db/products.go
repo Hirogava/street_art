@@ -85,7 +85,6 @@ func (Manager *Manager) GetTopProducts() ([]models.Product, error) {
 				p.name,
 				p.description,
 				p.price,
-				p.stock,
 				p.image_url,
 				b.name AS brand,
 				c.name AS category
@@ -105,7 +104,7 @@ func (Manager *Manager) GetTopProducts() ([]models.Product, error) {
 
 	for rows.Next() {
 		var product models.Product
-		err := rows.Scan(&product.Id, &product.Name, &product.Description, &product.Price, &product.Stock, &product.ImageUrl, &product.Brand, &product.Category)
+		err := rows.Scan(&product.Id, &product.Name, &product.Description, &product.Price, &product.ImageUrl, &product.Brand, &product.Category)
 		if err != nil {
 			return nil, err
 		}

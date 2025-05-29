@@ -1,4 +1,35 @@
 {{define "header"}}
+<style>
+    .highlighted {
+        animation: highlight 1s ease-in-out;
+    }
+
+    @keyframes highlight {
+        0%   { background-color: rgba(255, 255, 150, 0.6); }
+        100% { background-color: transparent; }
+    }
+
+    .soft-highlight {
+        background-color: rgba(255, 255, 150, 0.6);
+        border-radius: 4px;
+        transition: background-color 1s ease;
+    }
+
+    .soft-highlight.fadeout {
+        background-color: transparent;
+    }
+    
+    .highlighted h3,
+    .highlighted p,
+    .highlighted ul {
+        display: inline;
+        background-color: rgba(255, 255, 150, 0.6);
+        padding: 0 4px;
+        border-radius: 4px;
+        animation: highlight 1s ease-in-out;
+    }
+</style>
+
 <header class="header">
     <div class="container header-container">
         <div class="logo">
@@ -16,8 +47,8 @@
                     {{end}}
                 </div>
             </div>
-            <a href="#about" class="nav-link">О магазине</a>
-            <a href="#" class="nav-link">Контакты</a>
+            <a href="#company" class="nav-link scroll-and-highlight" data-target="company">О магазине</a>
+            <a href="#contacts" class="nav-link scroll-and-highlight" data-target="contacts">Контакты</a>
         </nav>
         <div class="user-menu">
             {{if .User}}

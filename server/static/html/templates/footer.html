@@ -1,11 +1,11 @@
 {{define "footer"}}
 <footer class="footer" id="about">
     <div class="container footer-container">
-        <div class="footer-section">
+        <div class="footer-section" id="company">
             <h3 class="hp">О компании</h3>
             <p>
-            Street Art Supplies — это магазин, созданный для настоящих ценителей уличного искусства. 
-            Мы предлагаем качественные материалы для граффити, росписи стен и других форм самовыражения. 
+            Street Art Supplies — это магазин, созданный для настоящих ценителей уличного искусства. <br>
+            Мы предлагаем качественные материалы для граффити, росписи стен и других форм самовыражения.<br> 
             Наша миссия — поддерживать творцов и вдохновлять на создание уникальных арт-объектов.
             </p>
         </div>
@@ -26,7 +26,7 @@
                 <li><a href="#">Политика конфиденциальности</a></li>
             </ul>
         </div>
-        <div class="footer-sectionn">
+        <div class="footer-sectionn" id="contacts">
             <h3>Контакты</h3>
             <ul class="footer-links">
                 <li>Email: info@streetart.supplies</li>
@@ -39,4 +39,39 @@
         <p>&copy; 2024 Street Art Supplies. Все права защищены.</p>
     </div>
 </footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".scroll-and-highlight").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const targetId = this.dataset.target;
+                const block = document.getElementById(targetId);
+                if (!block) return;
+
+                block.scrollIntoView({ behavior: "smooth" });
+
+                setTimeout(() => {
+                    const elementsToHighlight = block.querySelectorAll("p, ul");
+
+                    elementsToHighlight.forEach(el => {
+                        el.classList.remove("fadeout");
+                        el.classList.add("soft-highlight");
+                    });
+
+                    setTimeout(() => {
+                        elementsToHighlight.forEach(el => {
+                            el.classList.add("fadeout");
+                        });
+
+                        setTimeout(() => {
+                            elementsToHighlight.forEach(el => {
+                                el.classList.remove("soft-highlight", "fadeout");
+                            });
+                        }, 1000);
+                    }, 1000);
+                }, 500);
+            });
+        });
+    });
+</script>
 {{end}}

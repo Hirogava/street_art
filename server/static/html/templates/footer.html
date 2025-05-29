@@ -1,13 +1,13 @@
 {{define "footer"}}
 <footer class="footer" id="about">
     <div class="container footer-container">
-        <div class="footer-section" id="company">
+        <div class="footer-sectionn" id="company">
             <h3 class="hp">О компании</h3>
-            <p>
-            Street Art Supplies — это магазин, созданный для настоящих ценителей уличного искусства. <br>
-            Мы предлагаем качественные материалы для граффити, росписи стен и других форм самовыражения.<br> 
-            Наша миссия — поддерживать творцов и вдохновлять на создание уникальных арт-объектов.
-            </p>
+            <ul class="footer-links">
+                <li>Street Art Supplies — это магазин, созданный для настоящих ценителей уличного искусства.</li>
+                <li>Мы предлагаем качественные материалы для граффити, росписи стен и других форм самовыражения.</li> 
+                <li>Наша миссия — поддерживать творцов и вдохновлять на создание уникальных арт-объектов.</li>
+            </ul>
         </div>
         <div class="footer-sectionn">
             <h3>Каталог</h3>
@@ -55,7 +55,7 @@
 
                     elementsToHighlight.forEach(el => {
                         el.classList.remove("fadeout");
-                        el.classList.add("soft-highlight");
+                        el.classList.add("text-highlight");
                     });
 
                     setTimeout(() => {
@@ -65,7 +65,7 @@
 
                         setTimeout(() => {
                             elementsToHighlight.forEach(el => {
-                                el.classList.remove("soft-highlight", "fadeout");
+                                el.classList.remove("text-highlight", "fadeout");
                             });
                         }, 1000);
                     }, 1000);

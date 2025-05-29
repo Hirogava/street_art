@@ -55,7 +55,6 @@
 .products-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 2rem;
     animation: slideIn 0.5s ease-out;
     justify-content: center;
     max-width: 1400px;

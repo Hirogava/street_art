@@ -32,7 +32,8 @@
             </div>
             <div class="products-grid">
                 {{range .Products}}
-                <a href="/product/{{.Id}}" class="product-card">
+                <div>
+                    <a href="/product/{{.Id}}" class="product-card">
                     <div class="product-image">
                         <img src="{{.ImageUrl}}" alt="{{.Name}}">
                     </div>
@@ -44,9 +45,14 @@
                         </div>
                     </div>
                 </a>
+                <button id="add_to_cart" onclick="addToCart(this)" class="btn btn-primary add-to-cart-btn" data-product={{.Id}}>Добавить в корзину</button>
+                </div>
                 {{end}}
             </div>
         </section>
+        <div class="success-message" id="success-message">
+            <p>Товар успешно добавлен в корзину!</p>
+        </div>
 
         <!-- Categories -->
         <section class="categories container">

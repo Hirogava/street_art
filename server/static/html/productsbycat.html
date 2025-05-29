@@ -20,7 +20,8 @@
             <h1 class="products-title">Товары из категории {{.Category}}</h1>
             <div class="products-grid">
                 {{range .Products}}
-                <a href="/product/{{.Id}}" class="product-card">
+                <div class="product-card">
+                    <a href="/product/{{.Id}}" class="product-card">
                     <div class="product-image">
                         <img src="{{.ImageUrl}}" alt="{{.Name}}">
                     </div>
@@ -36,23 +37,29 @@
                                 <span class="detail-label">Категория:</span>
                                 <span class="detail-value">{{.Category}}</span>
                             </div>
-                            <div class="detail-item">
+                            <!-- <div class="detail-item">
                                 <span class="detail-label">В наличии:</span>
                                 <span class="detail-value">{{.Stock}} шт.</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Бренд:</span>
                                 <span class="detail-value">{{.Brand}}</span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </a>
+                <button id="add_to_cart" onclick="addToCart(this)" class="btn btn-primary add-to-cart-btn" data-product={{.Id}}>Добавить в корзину</button>
+                </div>
                 {{end}}
             </div>
+        </div>
+        <div class="success-message" id="success-message">
+            <p>Товар успешно добавлен в корзину!</p>
         </div>
     </main>
 
     <!-- Footer -->
     {{template "footer" .}}
+    <script src="/static/js/index.js"></script>
 </body>
 </html>
